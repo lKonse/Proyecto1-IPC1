@@ -8,39 +8,39 @@ public class claseprincipal_201700584 {
     
     public static void main(String[] args) {
         
-        marcoPrincipal marco = new marcoPrincipal();
+//        marcoPrincipal marco = new marcoPrincipal();
+          marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
     
     }
     
 }
 
 class marcoPrincipal extends JFrame{
-    
-    marcoPrincipalComponentes componentes;
-    
     public marcoPrincipal(){
         
         setBounds(275,125,800,500);
         setTitle("IPC PROYECTO 1");
         setResizable(false);       
         
-        componentes = new marcoPrincipalComponentes(); 
-        eventos e = new eventos();
-        componentes.BotonLogin.addActionListener(e);
- 
+        marcoPrincipalComponentes componentes = new marcoPrincipalComponentes(); 
+        eventos e = new eventos();//Llamamos a la clase eventos
+        componentes.BotonLogin.addActionListener(e);//Pedimos que el boton Login este a la escucha de la acción
+        
         add(componentes);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
     
+    //eventos de los botones, los creamos aqui para no tener que llamar al JFrame de nuevo
     private class eventos implements ActionListener{
         
         @Override
         public void actionPerformed(ActionEvent evento){
-            if(evento.getSource()==componentes.BotonLogin){
+            if(evento.getSource()==marcoPrincipalComponentes.BotonLogin){
                 ventanaLogin_201700584 login = new ventanaLogin_201700584();
                 setVisible(false);
+                setEnabled(false);//Desactivar la pantalla   
             }
         }
     }
@@ -65,7 +65,6 @@ class marcoPrincipalComponentes extends JPanel{
         BotonLogout.setBounds(new Rectangle(625,30,100,50));
         add(BotonLogout);
     }
-    
 }
 
 
