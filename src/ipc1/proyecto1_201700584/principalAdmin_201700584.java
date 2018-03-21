@@ -40,7 +40,9 @@ class marcoPrincipalAdmin extends JFrame{
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==componentesAdmin.bCrearUsers){
                 marcoCrearUsers crearUsers = new marcoCrearUsers();
-                setEnabled(false);
+            }
+            else if(evento.getSource()==componentesAdmin.bModUsers){
+                marcoModUsers modUsers = new marcoModUsers();               
             }
         }
     }

@@ -9,8 +9,8 @@ public class claseprincipal_201700584 {
     public static void main(String[] args) {
         
 //        marcoPrincipal marco = new marcoPrincipal();
-//        marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
-        marcoCrearUsers CrearUsers = new marcoCrearUsers();
+        marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
+//        marcoCrearUsers CrearUsers = new marcoCrearUsers();
     
     }
     
