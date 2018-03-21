@@ -240,6 +240,118 @@ class marcoModUsers extends JFrame{
     }
 }
 
+class marcoDeleteUsers extends JFrame{
+    public marcoDeleteUsers(){
+        setBounds(325,125,700,475);
+        setResizable(false);
+        setTitle("ADMINISTRADOR");
+        
+        componentesUsers componentes = new componentesUsers();
+        
+        componentesUsers.bOpcion = new JButton("Eliminar");
+        componentesUsers.bOpcion.setBounds(new Rectangle(500,125,100,50));
+        add(componentesUsers.bOpcion);
+        
+        componentesUsers.bBuscar = new JButton("Buscar");
+        componentesUsers.bBuscar.setBounds(new Rectangle(500,25,100,50));
+        add(componentesUsers.bBuscar);
+        
+        componentesUsers.txtRol = new JTextField();
+        componentesUsers.txtRol.setBounds(new Rectangle(220,350,150,25));
+        add(componentesUsers.txtRol);
+        
+        componentesUsers.tNombre.setEditable(false);
+        componentesUsers.tApellido.setEditable(false);
+        componentesUsers.tUser.setEditable(false);
+        componentesUsers.tContra.setEditable(false);
+        componentesUsers.tConfirmContra.setEditable(false);
+        componentesUsers.txtRol.setEditable(false);;
+        
+        eventosModUsers e = new eventosModUsers();
+        componentesUsers.bOpcion.addActionListener(e);
+        componentesUsers.bCancelar.addActionListener(e);
+        componentesUsers.bRegresar.addActionListener(e);
+        componentesUsers.bBuscar.addActionListener(e);
+        
+        add(componentes);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+    
+    private class eventosModUsers implements ActionListener{
+        
+        String guardarID, guardarNombre, guardarApellido, guardarUser, guardarContra, confirmContra, guardarRol;
+        
+        @Override
+        public void actionPerformed(ActionEvent evento){
+            if(evento.getSource()==componentesUsers.bBuscar){
+                
+                String verID = componentesUsers.tID.getText();
+                
+                for(int n = 1; n < 20; n++){
+                    if(verID.equals(Users_201700584.ID[n])){
+                        componentesUsers.tNombre.setText(Users_201700584.Nombre[n]);
+                        componentesUsers.tApellido.setText(Users_201700584.Apellido[n]);
+                        componentesUsers.tUser.setText(Users_201700584.User[n]);
+                        componentesUsers.tContra.setText(Users_201700584.Contra[n]);
+                        componentesUsers.txtRol.setText(Users_201700584.Rol[n]);
+                        break;
+                    }
+                }
+            }
+            else if(evento.getSource()==componentesUsers.bOpcion){
+                
+                    guardarID = componentesUsers.tID.getText();
+                
+               for(int n = 1; n < 20; n++){
+                   if(!guardarID.equals(Users_201700584.ID[n])){
+                        JOptionPane.showMessageDialog(marcoDeleteUsers.this, "ID no existente", 
+                                "ERROR", 2);
+                        break;
+                    }
+
+                   else if(guardarID.equals(Users_201700584.ID[n])){
+                        
+                        Users_201700584.ID[n]=null;
+                        Users_201700584.Nombre[n]=null;
+                        Users_201700584.Apellido[n]=null;
+                        Users_201700584.User[n]=null;
+                        Users_201700584.Contra[n]=null;
+                        Users_201700584.Rol[n]=null;
+                        
+                        JOptionPane.showMessageDialog(marcoDeleteUsers.this, "Usuario eliminado con exito", 
+                                "eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        componentesUsers.tID.setText(null);
+                        componentesUsers.tNombre.setText(null);
+                        componentesUsers.tApellido.setText(null);
+                        componentesUsers.tUser.setText(null);
+                        componentesUsers.tContra.setText(null);
+                        componentesUsers.tConfirmContra.setText(null);
+                        componentesUsers.txtRol.setText(null);
+                        
+                        break;
+                    }
+               } 
+            }
+            else if(evento.getSource()==componentesUsers.bCancelar){
+                componentesUsers.tID.setText(null);
+                componentesUsers.tNombre.setText(null);
+                componentesUsers.tApellido.setText(null);
+                componentesUsers.tUser.setText(null);
+                componentesUsers.tContra.setText(null);
+                componentesUsers.tConfirmContra.setText(null);
+                componentesUsers.txtRol.setText(null);
+            }
+            else if(evento.getSource()==componentesUsers.bRegresar){
+                setVisible(false);
+            }
+        }
+    }
+}
+
+//Componenetes
 class componentesUsers extends JPanel{
     
     static JButton bBuscar;

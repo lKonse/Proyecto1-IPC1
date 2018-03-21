@@ -44,6 +44,9 @@ class marcoPrincipalAdmin extends JFrame{
             else if(evento.getSource()==componentesAdmin.bModUsers){
                 marcoModUsers modUsers = new marcoModUsers();               
             }
+            else if(evento.getSource()==componentesAdmin.bDeleteUsers){
+                marcoDeleteUsers DeleteUsers = new marcoDeleteUsers();               
+            }
         }
     }
 }
