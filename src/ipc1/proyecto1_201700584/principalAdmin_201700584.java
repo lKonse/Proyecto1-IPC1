@@ -22,12 +22,28 @@ class marcoPrincipalAdmin extends JFrame{
         setTitle("ADMINISTRADOR");
         
         componentesAdmin componentes = new componentesAdmin();
+        eventos e = new eventos();
+        componentes.bCrearUsers.addActionListener(e);
+        componentes.bModUsers.addActionListener(e);
+        componentes.bDeleteUsers.addActionListener(e);
+        componentes.bMostrarUsers.addActionListener(e);
+        
         add(componentes);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         
-    } 
+    }
+    
+    private class eventos implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent evento){
+            if(evento.getSource()==componentesAdmin.bCrearUsers){
+                marcoCrearUsers crearUsers = new marcoCrearUsers();
+                setEnabled(false);
+            }
+        }
+    }
 }
 
 class componentesAdmin extends JPanel{

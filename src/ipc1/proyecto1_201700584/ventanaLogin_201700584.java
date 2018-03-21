@@ -8,13 +8,13 @@ public class ventanaLogin_201700584 {
     
     marcoLogin login = new marcoLogin();
     
-    static String users[] = new String[20];
+    
     static String contra[] = new String[20];
 
     public ventanaLogin_201700584() {
         
-        users[0] = "admin";
-        contra[0] = "admin";
+        Users_201700584.User[0] = "admin";
+        Users_201700584.Contra[0] = "admin";
         
     }
 }
@@ -29,8 +29,7 @@ class marcoLogin extends JFrame{
         componentesLogin componentes = new componentesLogin();
         eventos e = new eventos();
         componentes.bIngresar.addActionListener(e);//Boton ingresar estar a la escucha de la accion
-        componentes.bCancelar.addActionListener(e);//Boton cancelar estar a la escucha de la accion
-        
+        componentes.bCancelar.addActionListener(e);//Boton cancelar estar a la escucha de la accion   
         add(componentes);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,11 +49,11 @@ class marcoLogin extends JFrame{
                 comprobarContra = componentesLogin.tContraseña.getText();
                 
                 for(int n = 0; n < 20; n++){
-                    if(comprobarUsuario.equals(ventanaLogin_201700584.users[n])){//Recorre la matriz en busca del usuario si existe
+                    if(comprobarUsuario.equals(Users_201700584.User[n])){//Recorre la matriz en busca del usuario si existe
                         JOptionPane.showMessageDialog(marcoLogin.this,/*clase padre donde se aloja el mensaje*/ 
                                 "Usuario correcto", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         
-                        if(comprobarContra.equals(ventanaLogin_201700584.contra[n])){
+                        if(comprobarContra.equals(Users_201700584.Contra[n])){//Matriz usuarios
                             JOptionPane.showMessageDialog(marcoLogin.this, "contraseña correcta", "Mensaje", 
                                     JOptionPane.INFORMATION_MESSAGE);
                             
@@ -62,7 +61,7 @@ class marcoLogin extends JFrame{
                             setVisible(false);
                             break;//Salir del for
                         }
-                        else if(comprobarContra != ventanaLogin_201700584.contra[n]){
+                        else if(comprobarContra != Users_201700584.Contra[n]){
                             JOptionPane.showMessageDialog(marcoLogin.this, "El usuario y contraseña"
                                     + " no coinciden, por favor verifique su datos", "ERROR", JOptionPane.WARNING_MESSAGE);
                             break;
@@ -71,7 +70,7 @@ class marcoLogin extends JFrame{
                     }
                     
                     
-                    else if(comprobarUsuario != ventanaLogin_201700584.users[n]){
+                    else if(comprobarUsuario != Users_201700584.Contra[n]){
                         JOptionPane.showMessageDialog(marcoLogin.this, "El usuario no existe, ponerse en"
                                 + " contacto con el administrador para solicitar un registro", "USUARIO NO EXISTENTE", 2);
                         break;
