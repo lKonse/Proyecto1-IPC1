@@ -3,6 +3,7 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.PrintStream;
 
 public class claseprincipal_201700584 {
     
@@ -26,6 +27,7 @@ class marcoPrincipal extends JFrame{
         marcoPrincipalComponentes componentes = new marcoPrincipalComponentes(); 
         eventos e = new eventos();//Llamamos a la clase eventos
         componentes.BotonLogin.addActionListener(e);//Pedimos que el boton Login este a la escucha de la acción
+        componentes.BotonLogout.addActionListener(e);
         
         add(componentes);
         
@@ -40,8 +42,10 @@ class marcoPrincipal extends JFrame{
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==marcoPrincipalComponentes.BotonLogin){
                 ventanaLogin_201700584 login = new ventanaLogin_201700584();
-                setVisible(false);
-                setEnabled(false);//Desactivar la pantalla   
+                setVisible(false);   
+            }
+            else if(evento.getSource()==marcoPrincipalComponentes.BotonLogout){
+                System.exit(0);
             }
         }
     }

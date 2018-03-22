@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Users_201700584{
-    
+public class OpcionesUsers_201700584{ 
+}
+
+class matricesUsers{
     static String[] ID = new String[20];
     static String[] Nombre = new String[20]; 
     static String[] Apellido = new String[20]; 
@@ -13,14 +15,14 @@ public class Users_201700584{
     static String[] Contra = new String[20];
     static String[] Rol = new String[20];
     
-    public Users_201700584(){
+    public matricesUsers(){
         ID[0] = "admin";
         Nombre[0] = "admin";
         Apellido[0] = "admin";
         User[0] = "admin";
         Contra[0] = "admin";
         Rol[0] = "admin";
-    } 
+    }
 }
 //CREACION DE USUARIOS
 class marcoCrearUsers extends JFrame{
@@ -34,6 +36,14 @@ class marcoCrearUsers extends JFrame{
         
         componentesUsers.bOpcion = new JButton("Crear");
         componentesUsers.bOpcion.setBounds(new Rectangle(500,125,100,50));
+        
+        componentesUsers.tContra = new JPasswordField();
+        componentesUsers.tContra.setBounds(new Rectangle(220,250,150,25));
+        add(componentesUsers.tContra);
+        
+        componentesUsers.tConfirmContra = new JPasswordField();
+        componentesUsers.tConfirmContra.setBounds(new Rectangle(220,300,150,25));
+        add(componentesUsers.tConfirmContra); 
         add(componentesUsers.bOpcion);
         
         eventosCrearUsers e = new eventosCrearUsers();
@@ -55,7 +65,7 @@ class marcoCrearUsers extends JFrame{
         @Override
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==componentesUsers.bOpcion){
-                Users_201700584 h = new Users_201700584();
+                matricesUsers h = new matricesUsers();
                 
                 for(int n = 0; n < 20; n++){
                     
@@ -64,12 +74,12 @@ class marcoCrearUsers extends JFrame{
                     guardarContra = componentesUsers.tContra.getText();
                     confirmContra = componentesUsers.tConfirmContra.getText();
                     
-                    if(guardarID.equals(Users_201700584.ID[n])){
+                    if(guardarID.equals(matricesUsers.ID[n])){
                         JOptionPane.showMessageDialog(marcoCrearUsers.this, "Ya existe un usuario con este ID", 
                                 "ERROR", 2);
                         break;
                     }
-                    else if(guardarUser.equals(Users_201700584.User[n])){
+                    else if(guardarUser.equals(matricesUsers.User[n])){
                         JOptionPane.showMessageDialog(marcoCrearUsers.this, "Nombre de usuario no disponible", 
                                 "ERROR", 2);
                         break;
@@ -85,14 +95,14 @@ class marcoCrearUsers extends JFrame{
                     guardarRol = componentesUsers.tRol.getSelectedItem();
                 
                 
-                    if(Users_201700584.ID[n] == null){
+                    if(matricesUsers.ID[n] == null){
                         
-                        Users_201700584.ID[n]=guardarID;
-                        Users_201700584.Nombre[n]=guardarNombre;
-                        Users_201700584.Apellido[n]=guardarApellido;
-                        Users_201700584.User[n]=guardarUser;
-                        Users_201700584.Contra[n]=guardarContra;
-                        Users_201700584.Rol[n]=guardarRol;
+                        matricesUsers.ID[n]=guardarID;
+                        matricesUsers.Nombre[n]=guardarNombre;
+                        matricesUsers.Apellido[n]=guardarApellido;
+                        matricesUsers.User[n]=guardarUser;
+                        matricesUsers.Contra[n]=guardarContra;
+                        matricesUsers.Rol[n]=guardarRol;
                         
                         JOptionPane.showMessageDialog(marcoCrearUsers.this, "Usuario creado con exito", 
                                 "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -138,7 +148,7 @@ class marcoModUsers extends JFrame{
         componentesUsers.bBuscar = new JButton("Buscar");
         componentesUsers.bBuscar.setBounds(new Rectangle(500,25,100,50));
         add(componentesUsers.bBuscar);
-        
+                
         componentesUsers.txtRol = new JTextField();
         componentesUsers.txtRol.setBounds(new Rectangle(220,350,150,25));
         add(componentesUsers.txtRol);
@@ -166,12 +176,12 @@ class marcoModUsers extends JFrame{
                 String verID = componentesUsers.tID.getText();
                 
                 for(int n = 1; n < 20; n++){
-                    if(verID.equals(Users_201700584.ID[n])){
-                        componentesUsers.tNombre.setText(Users_201700584.Nombre[n]);
-                        componentesUsers.tApellido.setText(Users_201700584.Apellido[n]);
-                        componentesUsers.tUser.setText(Users_201700584.User[n]);
-                        componentesUsers.tContra.setText(Users_201700584.Contra[n]);
-                        componentesUsers.txtRol.setText(Users_201700584.Rol[n]);
+                    if(verID.equals(matricesUsers.ID[n])){
+                        componentesUsers.tNombre.setText(matricesUsers.Nombre[n]);
+                        componentesUsers.tApellido.setText(matricesUsers.Apellido[n]);
+                        componentesUsers.tUser.setText(matricesUsers.User[n]);
+                        componentesUsers.tContra.setText(matricesUsers.Contra[n]);
+                        componentesUsers.txtRol.setText(matricesUsers.Rol[n]);
                         break;
                     }
                 }
@@ -183,7 +193,7 @@ class marcoModUsers extends JFrame{
                     confirmContra = componentesUsers.tConfirmContra.getText();
                 
                for(int n = 1; n < 20; n++){
-                   if(guardarUser.equals(Users_201700584.User[n])){
+                   if(!guardarUser.equals(guardarUser) && guardarUser.equals(matricesUsers.User[n])){
                         JOptionPane.showMessageDialog(marcoModUsers.this, "Nombre de usuario no disponible", 
                                 "ERROR", 2);
                         break;
@@ -200,14 +210,14 @@ class marcoModUsers extends JFrame{
                     guardarID = componentesUsers.tID.getText();
                 
                 
-                    if(Users_201700584.ID[n].equals(guardarID)){
+                    if(matricesUsers.ID[n].equals(guardarID)){
                         
-                        Users_201700584.ID[n]=guardarID;
-                        Users_201700584.Nombre[n]=guardarNombre;
-                        Users_201700584.Apellido[n]=guardarApellido;
-                        Users_201700584.User[n]=guardarUser;
-                        Users_201700584.Contra[n]=guardarContra;
-                        Users_201700584.Rol[n]=guardarRol;
+                        matricesUsers.ID[n]=guardarID;
+                        matricesUsers.Nombre[n]=guardarNombre;
+                        matricesUsers.Apellido[n]=guardarApellido;
+                        matricesUsers.User[n]=guardarUser;
+                        matricesUsers.Contra[n]=guardarContra;
+                        matricesUsers.Rol[n]=guardarRol;
                         
                         JOptionPane.showMessageDialog(marcoModUsers.this, "Usuario modificado con exito", 
                                 "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -233,13 +243,13 @@ class marcoModUsers extends JFrame{
                 componentesUsers.tConfirmContra.setText(null);
                 componentesUsers.txtRol.setText(null);
             }
-            else if(evento.getSource()==componentesUsers.bRegresar){
+            else if(evento.getSource()==componentesUsers.bRegresar){                
                 setVisible(false);
             }
         }
     }
 }
-
+//ELIMINAR USUARIOS
 class marcoDeleteUsers extends JFrame{
     public marcoDeleteUsers(){
         setBounds(325,125,700,475);
@@ -265,7 +275,7 @@ class marcoDeleteUsers extends JFrame{
         componentesUsers.tUser.setEditable(false);
         componentesUsers.tContra.setEditable(false);
         componentesUsers.tConfirmContra.setEditable(false);
-        componentesUsers.txtRol.setEditable(false);;
+        componentesUsers.txtRol.setEditable(false);
         
         eventosModUsers e = new eventosModUsers();
         componentesUsers.bOpcion.addActionListener(e);
@@ -281,21 +291,21 @@ class marcoDeleteUsers extends JFrame{
     
     private class eventosModUsers implements ActionListener{
         
-        String guardarID, guardarNombre, guardarApellido, guardarUser, guardarContra, confirmContra, guardarRol;
+        String guardarID;
         
         @Override
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==componentesUsers.bBuscar){
                 
-                String verID = componentesUsers.tID.getText();
+                guardarID = componentesUsers.tID.getText();
                 
                 for(int n = 1; n < 20; n++){
-                    if(verID.equals(Users_201700584.ID[n])){
-                        componentesUsers.tNombre.setText(Users_201700584.Nombre[n]);
-                        componentesUsers.tApellido.setText(Users_201700584.Apellido[n]);
-                        componentesUsers.tUser.setText(Users_201700584.User[n]);
-                        componentesUsers.tContra.setText(Users_201700584.Contra[n]);
-                        componentesUsers.txtRol.setText(Users_201700584.Rol[n]);
+                    if(guardarID.equals(matricesUsers.ID[n])){
+                        componentesUsers.tNombre.setText(matricesUsers.Nombre[n]);
+                        componentesUsers.tApellido.setText(matricesUsers.Apellido[n]);
+                        componentesUsers.tUser.setText(matricesUsers.User[n]);
+                        componentesUsers.tContra.setText(matricesUsers.Contra[n]);
+                        componentesUsers.txtRol.setText(matricesUsers.Rol[n]);
                         break;
                     }
                 }
@@ -305,20 +315,20 @@ class marcoDeleteUsers extends JFrame{
                     guardarID = componentesUsers.tID.getText();
                 
                for(int n = 1; n < 20; n++){
-                   if(!guardarID.equals(Users_201700584.ID[n])){
+                   if(matricesUsers.ID[n] == null){
                         JOptionPane.showMessageDialog(marcoDeleteUsers.this, "ID no existente", 
                                 "ERROR", 2);
                         break;
                     }
 
-                   else if(guardarID.equals(Users_201700584.ID[n])){
+                   else if(guardarID.equals(matricesUsers.ID[n])){
                         
-                        Users_201700584.ID[n]=null;
-                        Users_201700584.Nombre[n]=null;
-                        Users_201700584.Apellido[n]=null;
-                        Users_201700584.User[n]=null;
-                        Users_201700584.Contra[n]=null;
-                        Users_201700584.Rol[n]=null;
+                        matricesUsers.ID[n]=null;
+                        matricesUsers.Nombre[n]=null;
+                        matricesUsers.Apellido[n]=null;
+                        matricesUsers.User[n]=null;
+                        matricesUsers.Contra[n]=null;
+                        matricesUsers.Rol[n]=null;
                         
                         JOptionPane.showMessageDialog(marcoDeleteUsers.this, "Usuario eliminado con exito", 
                                 "eliminar usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -365,8 +375,8 @@ class componentesUsers extends JPanel{
     static JTextField tUser;
     static Choice tRol;
     static JTextField txtRol;
-    static JPasswordField tContra;
-    static JPasswordField tConfirmContra;
+    static JTextField tContra;
+    static JTextField tConfirmContra;
     
     
     public componentesUsers(){
@@ -389,11 +399,11 @@ class componentesUsers extends JPanel{
         tUser.setBounds(new Rectangle(220,200,150,25));
         add(tUser);
         
-        tContra = new JPasswordField();
+        tContra = new JTextField();
         tContra.setBounds(new Rectangle(220,250,150,25));
         add(tContra);
         
-        tConfirmContra = new JPasswordField();
+        tConfirmContra = new JTextField();
         tConfirmContra.setBounds(new Rectangle(220,300,150,25));
         add(tConfirmContra);
         

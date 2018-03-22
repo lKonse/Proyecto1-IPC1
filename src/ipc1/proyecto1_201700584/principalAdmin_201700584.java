@@ -27,6 +27,10 @@ class marcoPrincipalAdmin extends JFrame{
         componentes.bModUsers.addActionListener(e);
         componentes.bDeleteUsers.addActionListener(e);
         componentes.bMostrarUsers.addActionListener(e);
+        componentes.bLogout.addActionListener(e);
+        componentes.bCrearBiblio.addActionListener(e);
+        componentes.bModBiblio.addActionListener(e);
+        componentes.bDeleteBiblio.addActionListener(e);
         
         add(componentes);
         
@@ -40,12 +44,28 @@ class marcoPrincipalAdmin extends JFrame{
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==componentesAdmin.bCrearUsers){
                 marcoCrearUsers crearUsers = new marcoCrearUsers();
+                
             }
             else if(evento.getSource()==componentesAdmin.bModUsers){
-                marcoModUsers modUsers = new marcoModUsers();               
+                marcoModUsers modUsers = new marcoModUsers();
+                
             }
             else if(evento.getSource()==componentesAdmin.bDeleteUsers){
-                marcoDeleteUsers DeleteUsers = new marcoDeleteUsers();               
+                marcoDeleteUsers DeleteUsers = new marcoDeleteUsers();
+                
+            }
+            else if(evento.getSource()==componentesAdmin.bLogout){
+                marcoPrincipal principal = new marcoPrincipal();
+                setVisible(false);
+            }
+            else if(evento.getSource()==componentesAdmin.bCrearBiblio){
+                marcoCrearBiblio crearBiblio = new marcoCrearBiblio();
+            }
+            else if(evento.getSource()==componentesAdmin.bModBiblio){
+                marcoModBiblio ModificarBiblio = new marcoModBiblio();
+            }
+            else if(evento.getSource()==componentesAdmin.bDeleteBiblio){
+                marcoDeleteBiblio DeleteBiblio = new marcoDeleteBiblio();
             }
         }
     }
@@ -66,60 +86,64 @@ class componentesAdmin extends JPanel{
     static JButton bReporteUsers;
     static JButton bReporteBiblio;
     
-    
+    static JButton bLogout;
+       
     public componentesAdmin(){
         
         setLayout(null);
         
         bCrearUsers = new JButton("Crear");
-        bCrearUsers.setBounds(new Rectangle(120,100,100,50));
+        bCrearUsers.setBounds(new Rectangle(80,100,100,50));
         add(bCrearUsers);
         
         bModUsers = new JButton("Modificar");
-        bModUsers.setBounds(new Rectangle(230,100,100,50));
+        bModUsers.setBounds(new Rectangle(190,100,100,50));
         add(bModUsers);
         
         bDeleteUsers = new JButton("Eliminar");
-        bDeleteUsers.setBounds(new Rectangle(340,100,100,50));
+        bDeleteUsers.setBounds(new Rectangle(300,100,100,50));
         add(bDeleteUsers);
         
         bMostrarUsers = new JButton("Mostrar");
-        bMostrarUsers.setBounds(new Rectangle(450,100,100,50));
+        bMostrarUsers.setBounds(new Rectangle(410,100,100,50));
         add(bMostrarUsers);
         
         bCrearBiblio = new JButton("Crear");
-        bCrearBiblio.setBounds(new Rectangle(120,235,100,50));
+        bCrearBiblio.setBounds(new Rectangle(80,235,100,50));
         add(bCrearBiblio);
         
         bModBiblio = new JButton("Modificar");
-        bModBiblio.setBounds(new Rectangle(230,235,100,50));
+        bModBiblio.setBounds(new Rectangle(190,235,100,50));
         add(bModBiblio );
         
         bDeleteBiblio  = new JButton("Eliminar");
-        bDeleteBiblio .setBounds(new Rectangle(340,235,100,50));
+        bDeleteBiblio .setBounds(new Rectangle(300,235,100,50));
         add(bDeleteBiblio);
         
         bMostrarBiblio = new JButton("Mostrar");
-        bMostrarBiblio.setBounds(new Rectangle(450,235,100,50));
+        bMostrarBiblio.setBounds(new Rectangle(410,235,100,50));
         add(bMostrarBiblio);
         
-        bReporteUsers = new JButton("Mostrar");
-        bReporteUsers.setBounds(new Rectangle(120,375,100,50));
+        bReporteUsers = new JButton("Reporte Usuarios");
+        bReporteUsers.setBounds(new Rectangle(80,375,135,50));
         add(bReporteUsers);
         
-        bReporteBiblio = new JButton("Mostrar");
-        bReporteBiblio.setBounds(new Rectangle(340,375,100,50));
+        bReporteBiblio = new JButton("Reporte Bibliografias");
+        bReporteBiblio.setBounds(new Rectangle(230,375,160,50));
         add(bReporteBiblio);
         
+        bLogout = new JButton("Logout");
+        bLogout.setBounds(new Rectangle(560,25,100,50));
+        add(bLogout);
     }
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
-        g.drawString("USUARIOS", 100, 75);
-        g.drawString("BIBLIOGRAFIA", 100, 220);
-        g.drawString("REPORTES", 100, 350);
+        g.drawString("USUARIOS", 60, 75);
+        g.drawString("BIBLIOGRAFIA", 60, 220);
+        g.drawString("REPORTES", 60, 350);
     }
 }
 
