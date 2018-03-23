@@ -4,14 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class principalAdmin_201700584 {
-    
-    marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
-    
-    public principalAdmin_201700584(){
-    
-    }
-     
+public class principalAdmin_201700584 {    
 }
 
 class marcoPrincipalAdmin extends JFrame{
@@ -31,6 +24,7 @@ class marcoPrincipalAdmin extends JFrame{
         componentes.bCrearBiblio.addActionListener(e);
         componentes.bModBiblio.addActionListener(e);
         componentes.bDeleteBiblio.addActionListener(e);
+        componentes.bMostrarBiblio.addActionListener(e);
         
         add(componentes);
         
@@ -54,6 +48,9 @@ class marcoPrincipalAdmin extends JFrame{
                 marcoDeleteUsers DeleteUsers = new marcoDeleteUsers();
                 
             }
+            else if(evento.getSource()==componentesAdmin.bMostrarUsers){
+                marcoMostrarUsers DeleteUsers = new marcoMostrarUsers();  
+            }
             else if(evento.getSource()==componentesAdmin.bLogout){
                 marcoPrincipal principal = new marcoPrincipal();
                 setVisible(false);
@@ -66,6 +63,9 @@ class marcoPrincipalAdmin extends JFrame{
             }
             else if(evento.getSource()==componentesAdmin.bDeleteBiblio){
                 marcoDeleteBiblio DeleteBiblio = new marcoDeleteBiblio();
+            }
+            else if(evento.getSource()==componentesAdmin.bMostrarBiblio){
+                marcoMostrarBiblio DeleteBiblio = new marcoMostrarBiblio();  
             }
         }
     }

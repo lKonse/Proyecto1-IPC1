@@ -573,8 +573,26 @@ class marcoDeleteBiblio extends marcoBiblio{
         add(componentesBiblio.bOpcion);
         
         componentesBiblio.bBuscar = new JButton("Buscar");
-        componentesBiblio.bBuscar.setBounds(new Rectangle(500,125,100,50));
+        componentesBiblio.bBuscar.setBounds(new Rectangle(500,25,100,50));
         add(componentesBiblio.bBuscar);
+        
+        componentesBiblio.tTipo.setVisible(false);
+        
+        componentesBiblio.txtTipo = new JTextField();
+        componentesBiblio.txtTipo.setBounds(new Rectangle(220,20,150,25));
+        add(componentesBiblio.txtTipo);
+        
+        componentesBiblio.txtTipo.setEditable(false);
+        componentesBiblio.tAutor.setEditable(false);
+        componentesBiblio.tAño.setEditable(false);
+        componentesBiblio.tDescripcion.setEditable(false);
+        componentesBiblio.tPalabras.setEditable(false);
+        componentesBiblio.tEdicion.setEditable(false);
+        componentesBiblio.tTemas.setEditable(false);
+        componentesBiblio.tCopias.setEditable(false);
+        componentesBiblio.tISBN.setEditable(false);
+        componentesBiblio.tEjemplares.setEditable(false);
+        componentesBiblio.tArea.setEditable(false);
         
         eventosDeleteBiblio e = new eventosDeleteBiblio();
         componentesBiblio.bBuscar.addActionListener(e);
@@ -586,13 +604,115 @@ class marcoDeleteBiblio extends marcoBiblio{
     }
     
     private class eventosDeleteBiblio implements ActionListener{
+        
+        
+        
         @Override
         public void actionPerformed(ActionEvent evento){
             if(evento.getSource()==componentesBiblio.bBuscar){
-                
+                String verTitulo = componentesBiblio.tTitulo.getText();
+    
+                for(int n = 0; n < 30; n++){
+                    if(verTitulo.equals(matricesBiblio.Titulo[n])){
+                        if(matricesBiblio.Tipo[n].equals("Libro")){//Ver de que tipo es
+                            
+                            limpiarCampos limpiar = new limpiarCampos();
+                            
+                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
+                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                            componentesBiblio.tCopias.setText(String.valueOf(matricesBiblio.Copias[n]));
+                            componentesBiblio.tISBN.setText(String.valueOf(matricesBiblio.ISBN[n]));
+                            break;
+                        }
+                        else if(matricesBiblio.Tipo[n].equals("Revista")){
+                            
+                            limpiarCampos limpiar = new limpiarCampos();
+                            
+                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
+                            
+                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                            componentesBiblio.tCopias.setText(String.valueOf(matricesBiblio.Copias[n]));
+                            componentesBiblio.tEjemplares.setText(matricesBiblio.Ejemplares[n]);
+                            break;
+                        }
+                        else if(matricesBiblio.Tipo[n].equals("Tesis")){
+                            
+                            limpiarCampos limpiar = new limpiarCampos();
+                            
+                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
+                            
+                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                            componentesBiblio.tCopias.setText(String.valueOf(matricesBiblio.Copias[n]));
+                            componentesBiblio.tArea.setText(matricesBiblio.Area[n]);
+                            break;
+                        }
+                        else if(matricesBiblio.Tipo[n].equals("Libro Virtual")){
+                            
+                            limpiarCampos limpiar = new limpiarCampos();
+                            
+                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
+                            
+                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                            break;
+                        }
+                    }
+                }
             }
             else if(evento.getSource()==componentesBiblio.bOpcion){
                 
+                String gTitulo = componentesBiblio.tTitulo.getText();
+                System.out.println(gTitulo);
+                
+               for(int n = 0; n < 30; n++){
+
+                    if(gTitulo.equals(matricesBiblio.Titulo[n])){
+                        
+                        matricesBiblio.Tipo[n] = null;
+                        matricesBiblio.Titulo[n] = null;
+                        matricesBiblio.Autor[n] = null;
+                        matricesBiblio.Año[n] = null;
+                        matricesBiblio.Descripcion[n] = null;
+                        matricesBiblio.Palabras[n][0] = null;
+                        matricesBiblio.Edicion[n] = 0;
+                        matricesBiblio.Temas[n][0] = null;
+                        matricesBiblio.Copias[n] = 0;
+                        matricesBiblio.ISBN[n] = 0;
+                        matricesBiblio.Ejemplares[n] = null;
+                        matricesBiblio.Area[n] = null;
+                        
+                        JOptionPane.showMessageDialog(marcoDeleteBiblio.this, "Bibliografia eliminada con exito", 
+                                "eliminar Bibliografia", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        limpiarCampos eliminar = new limpiarCampos();
+                        componentesBiblio.txtTipo.setText(null);
+                        
+                        break;
+                    }
+               }
             }
             else if(evento.getSource()==componentesBiblio.bCancelar){
                 limpiarCampos limpiar = new limpiarCampos();
@@ -603,6 +723,84 @@ class marcoDeleteBiblio extends marcoBiblio{
         }
     }
 }
+
+class marcoMostrarBiblio extends JFrame{//TABLA
+    
+    public JTable tabla;
+    private String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
+        "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
+    
+    public marcoMostrarBiblio(){
+
+        setLayout(new FlowLayout());
+        setResizable(false);
+        setSize(1200,475);
+        setLocation(120,125);
+        setTitle("ADMINISTRADOR");
+        
+        miTabla();
+        
+        componentesMostrarBiblio com = new componentesMostrarBiblio();
+        eventosModBiblio e = new eventosModBiblio();
+        componentesMostrarBiblio.bRegresar.addActionListener(e);
+        add(componentesMostrarBiblio.bRegresar);
+  
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+    public void miTabla(){
+        
+        int tamaño = 0;
+        
+            for(int i = 0; i < 30; i++){
+                if(matricesBiblio.Tipo[i] != null){
+                    tamaño++;
+                }
+            }
+        
+
+        String[][] datos = new String[tamaño][13];
+        
+        for(int n = 0; n < tamaño; n++){
+            
+            datos[n][0] = String.valueOf(n+1);
+            datos[n][1] = matricesBiblio.Tipo[n];
+            datos[n][2] = matricesBiblio.Titulo[n];
+            datos[n][3] = matricesBiblio.Autor[n];
+            datos[n][4] = matricesBiblio.Año[n];
+            datos[n][5] = matricesBiblio.Descripcion[n];
+            datos[n][6] = matricesBiblio.Palabras[n][0];
+            datos[n][7] = String.valueOf(matricesBiblio.Edicion[n]);
+            datos[n][8] = matricesBiblio.Temas[n][0];
+            datos[n][9] = String.valueOf(matricesBiblio.Copias[n]);
+            datos[n][10] = String.valueOf(matricesBiblio.ISBN[n]);
+            datos[n][11] = matricesBiblio.Ejemplares[n];
+            datos[n][12] = matricesBiblio.Area[n];
+        }
+        
+        tabla = new JTable(datos, nombreColumnas);
+        tabla.setBounds(40,40,200,300);
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setPreferredSize(new Dimension(1100,300));
+        add(scroll);
+    }
+    private class eventosModBiblio implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent evento){
+            if(evento.getSource()== componentesMostrarBiblio.bRegresar){
+                setVisible(false);
+            }
+        }
+    }      
+}
+class componentesMostrarBiblio extends JPanel{
+        static JButton bRegresar;
+        public componentesMostrarBiblio(){
+            bRegresar = new JButton("Regresar");
+            bRegresar.setPreferredSize(new Dimension(100,50));
+            
+        }
+    }
 
 class marcoBiblio extends JFrame{
     public marcoBiblio(){

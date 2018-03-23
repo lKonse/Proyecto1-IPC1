@@ -3,6 +3,9 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Locale;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 public class OpcionesUsers_201700584{ 
 }
@@ -94,7 +97,7 @@ class marcoCrearUsers extends JFrame{
                     guardarApellido = componentesUsers.tApellido.getText();
                     guardarRol = componentesUsers.tRol.getSelectedItem();
                 
-                
+                //HASTA QUI PERRO
                     if(matricesUsers.ID[n] == null){
                         
                         matricesUsers.ID[n]=guardarID;
@@ -360,6 +363,77 @@ class marcoDeleteUsers extends JFrame{
         }
     }
 }
+
+class marcoMostrarUsers extends JFrame{//TABLA
+    
+    public JTable tabla;
+    private String[] nombreColumnas = {"No.","ID","Nombre","Apellido","Usuario","Contraseña", "Rol"};
+    
+    public marcoMostrarUsers(){
+
+        setLayout(new FlowLayout());
+        setResizable(false);
+        setSize(750,475);
+        setLocation(275,125);
+        setTitle("ADMINISTRADOR");
+        
+        miTabla();
+        
+        componentesMostrar com = new componentesMostrar();
+        eventosModUsers e = new eventosModUsers();
+        componentesMostrar.bRegresar.addActionListener(e);
+        add(componentesMostrar.bRegresar);
+  
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+    public void miTabla(){
+        
+        int tamaño = 0;
+        
+            for(int i = 1; i < 20; i++){
+                if(matricesUsers.ID[i] != null){
+                    tamaño++;
+                }
+            }
+        
+
+        String[][] datos = new String[tamaño][7];
+        
+        for(int n = 0; n < tamaño; n++){
+            
+            datos[n][0] = String.valueOf(n+1);
+            datos[n][1] = matricesUsers.ID[n+1];
+            datos[n][2] = matricesUsers.Nombre[n+1];
+            datos[n][3] = matricesUsers.Apellido[n+1];
+            datos[n][4] = matricesUsers.User[n+1];
+            datos[n][5] = matricesUsers.Contra[n+1];
+            datos[n][6] = matricesUsers.Rol[n+1];
+        }
+        
+        tabla = new JTable(datos, nombreColumnas);
+        tabla.setBounds(40,40,200,300);
+        JScrollPane scroll = new JScrollPane(tabla);
+        scroll.setPreferredSize(new Dimension(550,400));
+        add(scroll);
+    }
+    private class eventosModUsers implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent evento){
+            if(evento.getSource()== componentesMostrar.bRegresar){
+                setVisible(false);
+            }
+        }
+    }      
+}
+class componentesMostrar extends JPanel{
+        static JButton bRegresar;
+        public componentesMostrar(){
+            bRegresar = new JButton("Regresar");
+            bRegresar.setPreferredSize(new Dimension(100,50));
+            
+        }
+    }
 
 //Componenetes
 class componentesUsers extends JPanel{
