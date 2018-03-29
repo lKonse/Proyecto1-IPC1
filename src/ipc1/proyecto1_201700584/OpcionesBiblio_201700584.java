@@ -3,6 +3,9 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class OpcionesBiblio_201700584 {  
 }
@@ -22,11 +25,7 @@ class matricesBiblio{
     static String[] Area = new String[30];
     
     public matricesBiblio(){
-        for(int n = 0; n < 30; n++){
-            Copias[n] = 0;
-            Edicion[n]=0;
-            ISBN[n]=0;
-        }
+        
     }
 }
 
@@ -759,7 +758,7 @@ class marcoMostrarBiblio extends JFrame{//TABLA
             }
         
 
-        String[][] datos = new String[tamaño][13];
+        String[][] datos = new String[tamaño][14];
         
         for(int n = 0; n < tamaño; n++){
             
@@ -794,14 +793,270 @@ class marcoMostrarBiblio extends JFrame{//TABLA
     }      
 }
 class componentesMostrarBiblio extends JPanel{
+        
         static JButton bRegresar;
+        
         public componentesMostrarBiblio(){
+            setLayout(null);
             bRegresar = new JButton("Regresar");
             bRegresar.setPreferredSize(new Dimension(100,50));
-            
+        }
+}
+
+class marcoCargaMasiva extends marcoBiblio{
+    public marcoCargaMasiva(){
+        
+        componentesCargaMasiva componentes = new componentesCargaMasiva();
+        eventosCargaMasiva e = new eventosCargaMasiva();
+        componentesCargaMasiva.boton[0].addActionListener(e);
+        componentesCargaMasiva.boton[1].addActionListener(e);
+        add(componentes);
+        
+    }
+    private class eventosCargaMasiva implements ActionListener{
+        
+        String gAutor,gAño,gDescripcion,gPalabras,gTemas,gEjemplares,gArea,gTitulo;
+        int gEdicion,gCopias,gISBN;
+        Object gTipo;
+
+        @Override
+        public void actionPerformed(ActionEvent evento) {
+            if(evento.getSource() == componentesCargaMasiva.boton[0]){
+                
+                
+                    String texto = componentesCargaMasiva.area.getText();
+                    String[] lineas = texto.split("\n");
+                    String[][] info = new String[lineas.length][];
+                    
+                    for(int n = 0; n < lineas.length; n++){//Guardar cada palabra en el arreglo 2D
+                        info[n] = lineas[n].split(";");
+                    }
+                    
+                matricesBiblio h = new matricesBiblio();//Llamar a las matrices
+                
+                for(int a = 0; a < lineas.length; a++){
+                    
+                    if(info[a][0].equals("0")){
+                        gTipo = "Libro";
+                    }
+                    else if(info[a][0].equals("1")){
+                        gTipo = "Revista";
+                    }
+                    else if(info[a][0].equals("2")){
+                        gTipo = "Tesis";
+                    }
+                    else if(info[a][0].equals("3")){
+                        gTipo = "Libro Virtual";
+                    }
+                    gTitulo = info[a][1];
+                    gAutor = info[a][2];                         
+                    gAño = info[a][3];
+                    gDescripcion = info[a][4];
+                    gPalabras = info[a][5];
+                    gEdicion = Integer.parseInt(info[a][6]);
+                    gTemas = info[a][7];
+                    
+                    for(int n = 0; n < 30; n++){
+
+                        if(gTipo.equals("Libro")){
+
+                            gCopias = Integer.parseInt(info[a][8]);
+                            gISBN = Integer.parseInt(info[a][9]);
+
+                            if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
+                                if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
+                                    matricesBiblio.Copias[n] += gCopias;
+                                    break;
+                                }
+                                else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
+                                    for(int m = 0; m < 30; m++){
+                                        if(matricesBiblio.Titulo[m] == null){
+
+                                            matricesBiblio.Tipo[m] = (String) gTipo;
+                                            matricesBiblio.Titulo[m] = gTitulo;
+                                            matricesBiblio.Autor[m] = gAutor;
+                                            matricesBiblio.Año[m] = gAño;
+                                            matricesBiblio.Descripcion[m] = gDescripcion;
+                                            matricesBiblio.Palabras[m][0] = gPalabras;
+                                            matricesBiblio.Edicion[m] = gEdicion;
+                                            matricesBiblio.Temas[m][0] = gTemas;
+                                            matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.ISBN[m] = gISBN;
+                                            break;
+                                        }
+                                    }
+                                }
+                             break;   
+                            }
+                            else if(matricesBiblio.Titulo[n] == null){
+                                matricesBiblio.Tipo[n] = (String)gTipo;
+                                matricesBiblio.Titulo[n] = gTitulo;
+                                matricesBiblio.Autor[n] = gAutor;
+                                matricesBiblio.Año[n] = gAño;
+                                matricesBiblio.Descripcion[n] = gDescripcion;
+                                matricesBiblio.Palabras[n][0] = gPalabras;
+                                matricesBiblio.Edicion[n] = gEdicion;
+                                matricesBiblio.Temas[n][0] = gTemas;
+                                matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.ISBN[n] = gISBN;
+                                break;
+                            }
+                        }
+                        if(gTipo.equals("Revista")){
+
+                            gCopias = Integer.parseInt(info[a][8]);
+                            gEjemplares = info[a][9]; 
+
+                            if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
+                                if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
+                                    matricesBiblio.Copias[n] += gCopias;
+                                    break;
+                                }
+                                else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
+                                    for(int m = 0; m < 30; m++){
+                                        if(matricesBiblio.Titulo[m] == null){
+
+                                            matricesBiblio.Tipo[m] = (String)gTipo;
+                                            matricesBiblio.Titulo[m] = gTitulo;
+                                            matricesBiblio.Autor[m] = gAutor;
+                                            matricesBiblio.Año[m] = gAño;
+                                            matricesBiblio.Descripcion[m] = gDescripcion;
+                                            matricesBiblio.Palabras[m][0] = gPalabras;
+                                            matricesBiblio.Edicion[m] = gEdicion;
+                                            matricesBiblio.Temas[m][0] = gTemas;
+                                            matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.Ejemplares[m] = gEjemplares;
+                                            break;
+                                        }
+                                    }
+                                }
+                             break;   
+                            }
+                            else if(matricesBiblio.Titulo[n] == null){
+                                matricesBiblio.Tipo[n] = (String)gTipo;
+                                matricesBiblio.Titulo[n] = gTitulo;
+                                matricesBiblio.Autor[n] = gAutor;
+                                matricesBiblio.Año[n] = gAño;
+                                matricesBiblio.Descripcion[n] = gDescripcion;
+                                matricesBiblio.Palabras[n][0] = gPalabras;
+                                matricesBiblio.Edicion[n] = gEdicion;
+                                matricesBiblio.Temas[n][0] = gTemas;
+                                matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.Ejemplares[n] = gEjemplares;
+                                break;
+                            }
+                        }
+                        else if(gTipo.equals("Tesis")){
+
+                            gCopias = Integer.parseInt(info[a][8]);
+                            gArea = info[a][9];
+
+                            if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
+                                if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
+                                    matricesBiblio.Copias[n] += gCopias;
+                                    break;
+                                }
+                                else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
+                                    for(int m = 0; m < 30; m++){
+                                        if(matricesBiblio.Titulo[m] == null){
+
+                                            matricesBiblio.Tipo[m] = (String)gTipo;
+                                            matricesBiblio.Titulo[m] = gTitulo;
+                                            matricesBiblio.Autor[m] = gAutor;
+                                            matricesBiblio.Año[m] = gAño;
+                                            matricesBiblio.Descripcion[m] = gDescripcion;
+                                            matricesBiblio.Palabras[m][0] = gPalabras;
+                                            matricesBiblio.Edicion[m] = gEdicion;
+                                            matricesBiblio.Temas[m][0] = gTemas;
+                                            matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.Area[m] = gArea;
+                                            break;
+                                        }
+                                    }
+                                }
+                             break;   
+                            }
+                            else if(matricesBiblio.Titulo[n] == null){
+                                matricesBiblio.Tipo[n] = (String)gTipo;
+                                matricesBiblio.Titulo[n] = gTitulo;
+                                matricesBiblio.Autor[n] = gAutor;
+                                matricesBiblio.Año[n] = gAño;
+                                matricesBiblio.Descripcion[n] = gDescripcion;
+                                matricesBiblio.Palabras[n][0] = gPalabras;
+                                matricesBiblio.Edicion[n] = gEdicion;
+                                matricesBiblio.Temas[n][0] = gTemas;
+                                matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.Area[n] = gArea;
+                                break;
+                            }
+                        }
+                        else if(gTipo.equals("Libro Virtual")){
+                            if(matricesBiblio.Titulo[n] == null){
+                                matricesBiblio.Tipo[n] = (String)gTipo;
+                                matricesBiblio.Titulo[n] = gTitulo;
+                                matricesBiblio.Autor[n] = gAutor;
+                                matricesBiblio.Año[n] = gAño;
+                                matricesBiblio.Descripcion[n] = gDescripcion;
+                                matricesBiblio.Palabras[n][0] = gPalabras;
+                                matricesBiblio.Edicion[n] = gEdicion;
+                                matricesBiblio.Temas[n][0] = gTemas;
+                                break;
+                            }
+                        }
+                    }
+                }
+                JOptionPane.showMessageDialog(marcoCargaMasiva.this, "Carga masiva exitosa", "EXITO", 1);
+            }
+            else if(evento.getSource() == componentesCargaMasiva.boton[1]){
+                setVisible(false);
+            }
         }
     }
-
+}
+class componentesCargaMasiva extends JPanel{
+    
+    static JTextArea area;
+    
+    static JButton[] boton = new JButton[2];
+    
+    private Image[] imagen = new Image[2];
+    
+    public componentesCargaMasiva(){
+        setLayout(null);
+        
+        area = new JTextArea();
+        JScrollPane scroll = new JScrollPane(area);
+        scroll.setBounds(new Rectangle(25,150,645,300));
+        add(scroll);
+        
+        boton[0] = new JButton("cargar");
+        boton[0].setBounds(new Rectangle(125,50,100,50));
+        add(boton[0]);
+        
+        boton[1] = new JButton("Regresar");
+        boton[1].setBounds(new Rectangle(450,50,100,50));
+        add(boton[1]);
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        
+        File[] ubicacion = new File[2];
+        
+        ubicacion[0] = new File("src/imagenes/fondoAqua.png");
+        ubicacion[1] = new File("src/imagenes/usacLogo2.png");
+        
+        try{
+            imagen[0] = ImageIO.read(ubicacion[0]);
+            imagen[1] = ImageIO.read(ubicacion[1]);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(componentesCargaMasiva.this, "No se encontro la imagen", "ERROR", 0);
+        }
+        g.drawImage(imagen[0], 0, 0, 700, 535, null);
+        g.drawImage(imagen[1], 280, 25, 125, 125, null);
+    }
+}
 class marcoBiblio extends JFrame{
     public marcoBiblio(){
         setBounds(350,125,700,535);
@@ -833,6 +1088,8 @@ class componentesBiblio extends JPanel{
     static JTextField tISBN;
     static JTextField tEjemplares;
     static JTextField tArea;
+    
+    private Image imagen;
     
     public componentesBiblio(){
         
@@ -906,6 +1163,16 @@ class componentesBiblio extends JPanel{
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+        
+        File ubicacion = new File("src/imagenes/fondoAqua.png");
+        
+        try{
+            imagen = ImageIO.read(ubicacion);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(componentesBiblio.this, 
+                    "No se encontro la imagen", "ERROR", 0);
+        }
+        g.drawImage(imagen, 0, 0, 700, 500, null);
         
         g.drawString("TIPO:", 60, 35);
         g.drawString("Titulo:", 60, 75);

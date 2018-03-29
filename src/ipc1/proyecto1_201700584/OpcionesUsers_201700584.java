@@ -3,9 +3,9 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Locale;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import java.io.*;
+import javax.imageio.*;
+
 
 public class OpcionesUsers_201700584{ 
 }
@@ -25,6 +25,13 @@ class matricesUsers{
         User[0] = "admin";
         Contra[0] = "admin";
         Rol[0] = "admin";
+        
+        ID[1] = "201700584";
+        Nombre[1] = "Master";
+        Apellido[1] = "Chief";
+        User[1] = "Konse";
+        Contra[1] = "ama";
+        Rol[1] = "admin";
     }
 }
 //CREACION DE USUARIOS
@@ -452,6 +459,8 @@ class componentesUsers extends JPanel{
     static JTextField tContra;
     static JTextField tConfirmContra;
     
+    private Image[] imagen = new Image[2];
+    
     
     public componentesUsers(){
         
@@ -500,6 +509,18 @@ class componentesUsers extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
+        File ubicacion[] = new File[2];
+        ubicacion[1] = new File("src/imagenes/fondoAqua.png");
+        
+        try{
+            imagen[1] = ImageIO.read(ubicacion[1]);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(componentesUsers.this, 
+                    "No se encontro la imagen", "ERROR", 0);
+        }
+        
+        g.drawImage(imagen[1], 0, 0, 700, 500, null);
+        
         g.drawString("ID:", 60, 70);
         g.drawString("Nombre:", 60, 120);
         g.drawString("Apellido:", 60, 170);
@@ -507,5 +528,6 @@ class componentesUsers extends JPanel{
         g.drawString("Contraseña:", 60, 270);
         g.drawString("Confirmar Contraseña:", 60, 320);
         g.drawString("Rol:", 60, 370);
+        
     }
 }

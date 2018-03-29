@@ -3,6 +3,8 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import javax.imageio.*;
 
 public class principalAdmin_201700584 {    
 }
@@ -16,15 +18,9 @@ class marcoPrincipalAdmin extends JFrame{
         
         componentesAdmin componentes = new componentesAdmin();
         eventos e = new eventos();
-        componentes.bCrearUsers.addActionListener(e);
-        componentes.bModUsers.addActionListener(e);
-        componentes.bDeleteUsers.addActionListener(e);
-        componentes.bMostrarUsers.addActionListener(e);
-        componentes.bLogout.addActionListener(e);
-        componentes.bCrearBiblio.addActionListener(e);
-        componentes.bModBiblio.addActionListener(e);
-        componentes.bDeleteBiblio.addActionListener(e);
-        componentes.bMostrarBiblio.addActionListener(e);
+        for(int n = 0; n<componentesAdmin.boton.length; n++){
+            componentes.boton[n].addActionListener(e);
+        }
         
         add(componentes);
         
@@ -36,35 +32,38 @@ class marcoPrincipalAdmin extends JFrame{
     private class eventos implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent evento){
-            if(evento.getSource()==componentesAdmin.bCrearUsers){
+            if(evento.getSource()==componentesAdmin.boton[0]){
                 marcoCrearUsers crearUsers = new marcoCrearUsers();
                 
             }
-            else if(evento.getSource()==componentesAdmin.bModUsers){
+            else if(evento.getSource()==componentesAdmin.boton[1]){
                 marcoModUsers modUsers = new marcoModUsers();
                 
             }
-            else if(evento.getSource()==componentesAdmin.bDeleteUsers){
+            else if(evento.getSource()==componentesAdmin.boton[2]){
                 marcoDeleteUsers DeleteUsers = new marcoDeleteUsers();
                 
             }
-            else if(evento.getSource()==componentesAdmin.bMostrarUsers){
+            else if(evento.getSource()==componentesAdmin.boton[3]){
                 marcoMostrarUsers DeleteUsers = new marcoMostrarUsers();  
             }
-            else if(evento.getSource()==componentesAdmin.bLogout){
+            else if(evento.getSource()==componentesAdmin.boton[11]){
                 marcoPrincipal principal = new marcoPrincipal();
                 setVisible(false);
             }
-            else if(evento.getSource()==componentesAdmin.bCrearBiblio){
+            else if(evento.getSource()==componentesAdmin.boton[4]){
                 marcoCrearBiblio crearBiblio = new marcoCrearBiblio();
             }
-            else if(evento.getSource()==componentesAdmin.bModBiblio){
+            else if(evento.getSource()==componentesAdmin.boton[5]){
+                marcoCargaMasiva cargaMasiva = new marcoCargaMasiva();
+            }
+            else if(evento.getSource()==componentesAdmin.boton[6]){
                 marcoModBiblio ModificarBiblio = new marcoModBiblio();
             }
-            else if(evento.getSource()==componentesAdmin.bDeleteBiblio){
+            else if(evento.getSource()==componentesAdmin.boton[7]){
                 marcoDeleteBiblio DeleteBiblio = new marcoDeleteBiblio();
             }
-            else if(evento.getSource()==componentesAdmin.bMostrarBiblio){
+            else if(evento.getSource()==componentesAdmin.boton[8]){
                 marcoMostrarBiblio DeleteBiblio = new marcoMostrarBiblio();  
             }
         }
@@ -73,77 +72,88 @@ class marcoPrincipalAdmin extends JFrame{
 
 class componentesAdmin extends JPanel{
     
-    static JButton bCrearUsers;
-    static JButton bModUsers;
-    static JButton bDeleteUsers;
-    static JButton bMostrarUsers;
+    static JButton[] boton = new JButton[12];
     
-    static JButton bCrearBiblio;
-    static JButton bModBiblio;
-    static JButton bDeleteBiblio;
-    static JButton bMostrarBiblio;
-    
-    static JButton bReporteUsers;
-    static JButton bReporteBiblio;
-    
-    static JButton bLogout;
+    private Image[] imagen = new Image[2];
        
     public componentesAdmin(){
         
         setLayout(null);
         
-        bCrearUsers = new JButton("Crear");
-        bCrearUsers.setBounds(new Rectangle(80,100,100,50));
-        add(bCrearUsers);
+        boton[0] = new JButton("Crear");
+        boton[0].setBounds(new Rectangle(80,100,100,50));
+        add(boton[0]);
         
-        bModUsers = new JButton("Modificar");
-        bModUsers.setBounds(new Rectangle(190,100,100,50));
-        add(bModUsers);
+        boton[1] = new JButton("Modificar");
+        boton[1].setBounds(new Rectangle(190,100,100,50));
+        add(boton[1]);
         
-        bDeleteUsers = new JButton("Eliminar");
-        bDeleteUsers.setBounds(new Rectangle(300,100,100,50));
-        add(bDeleteUsers);
+        boton[2] = new JButton("Eliminar");
+        boton[2].setBounds(new Rectangle(300,100,100,50));
+        add(boton[2]);
         
-        bMostrarUsers = new JButton("Mostrar");
-        bMostrarUsers.setBounds(new Rectangle(410,100,100,50));
-        add(bMostrarUsers);
+        boton[3] = new JButton("Mostrar");
+        boton[3].setBounds(new Rectangle(410,100,100,50));
+        add(boton[3]);
         
-        bCrearBiblio = new JButton("Crear");
-        bCrearBiblio.setBounds(new Rectangle(80,235,100,50));
-        add(bCrearBiblio);
+        boton[4] = new JButton("Carga individual");
+        boton[4].setBounds(new Rectangle(80,235,125,25));
+        add(boton[4]);
         
-        bModBiblio = new JButton("Modificar");
-        bModBiblio.setBounds(new Rectangle(190,235,100,50));
-        add(bModBiblio );
+        boton[5] = new JButton("Carga masiva");
+        boton[5].setBounds(new Rectangle(80,260,125,25));
+        add(boton[5]);
         
-        bDeleteBiblio  = new JButton("Eliminar");
-        bDeleteBiblio .setBounds(new Rectangle(300,235,100,50));
-        add(bDeleteBiblio);
+        boton[6] = new JButton("Modificar");
+        boton[6].setBounds(new Rectangle(215,235,100,50));
+        add(boton[6]);
         
-        bMostrarBiblio = new JButton("Mostrar");
-        bMostrarBiblio.setBounds(new Rectangle(410,235,100,50));
-        add(bMostrarBiblio);
+        boton[7] = new JButton("Eliminar");
+        boton[7].setBounds(new Rectangle(325,235,100,50));
+        add(boton[7]);
         
-        bReporteUsers = new JButton("Reporte Usuarios");
-        bReporteUsers.setBounds(new Rectangle(80,375,135,50));
-        add(bReporteUsers);
+        boton[8] = new JButton("Mostrar");
+        boton[8].setBounds(new Rectangle(435,235,100,50));
+        add(boton[8]);
         
-        bReporteBiblio = new JButton("Reporte Bibliografias");
-        bReporteBiblio.setBounds(new Rectangle(230,375,160,50));
-        add(bReporteBiblio);
+        boton[9] = new JButton("Reporte Usuarios");
+        boton[9].setBounds(new Rectangle(80,375,135,50));
+        add(boton[9]);
         
-        bLogout = new JButton("Logout");
-        bLogout.setBounds(new Rectangle(560,25,100,50));
-        add(bLogout);
+        boton[10] = new JButton("Reporte Bibliografias");
+        boton[10].setBounds(new Rectangle(230,375,160,50));
+        add(boton[10]);
+        
+        boton[11] = new JButton("Logout");
+        boton[11].setBounds(new Rectangle(560,25,100,50));
+        add(boton[11]);
     }
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         
+        File ubicacion[] = new File[2];
+        ubicacion[0] = new File("src/imagenes/usacLogo2.png");
+        ubicacion[1] = new File("src/imagenes/fondoAqua.png");
+        
+        try{
+            imagen[1] = ImageIO.read(ubicacion[1]);
+            imagen[0] = ImageIO.read(ubicacion[0]);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(componentesAdmin.this, 
+                    "No se encontro la imagen", "ERROR", 0);
+        }
+        
+        g.drawImage(imagen[1], 0, 0, 700, 500, null);
+        g.drawImage(imagen[0], 500, 300, 150, 150, null);
+        
         g.drawString("USUARIOS", 60, 75);
         g.drawString("BIBLIOGRAFIA", 60, 220);
         g.drawString("REPORTES", 60, 350);
+        
+        
+        
     }
 }
 

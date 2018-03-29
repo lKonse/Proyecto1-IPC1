@@ -3,13 +3,16 @@ package ipc1.proyecto1_201700584;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.PrintStream;
+import java.io.*;
+import javax.imageio.*;
 
 public class claseprincipal_201700584 {
     
     public static void main(String[] args) {
         
 //        marcoPrincipal marco = new marcoPrincipal();
+//        marcoPrincipalUsuario user = new marcoPrincipalUsuario();
+//        bibliotecaVirtual vir = new bibliotecaVirtual();
         marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
 //        marcoCrearUsers CrearUsers = new marcoCrearUsers();
     
@@ -55,6 +58,7 @@ class marcoPrincipalComponentes extends JPanel{
     
     static JButton BotonLogin;
     static JButton BotonLogout;
+    private Image imagen1;
     
     public marcoPrincipalComponentes(){
         setLayout(null);
@@ -70,6 +74,23 @@ class marcoPrincipalComponentes extends JPanel{
         BotonLogout.setBounds(new Rectangle(625,30,100,50));
         add(BotonLogout);
     }
+
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        
+        File ubicacion = new File("src/imagenes/usacLogo.png");
+        
+        try{
+        imagen1 = ImageIO.read(ubicacion);
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(marcoPrincipalComponentes.this, 
+                    "La imagen no se encuentra", "ERROR", 0);//JOptionPane.ERROR_MESSAGE
+        }
+        
+        g.drawImage(imagen1, 50, 150, 650, 225, null);
+    }
 }
 
 class ventanaLogin {
@@ -83,6 +104,8 @@ class ventanaLogin {
         
         matricesUsers.User[0] = "admin";
         matricesUsers.Contra[0] = "admin";
+        matricesUsers.User[1] = "Konse";
+        matricesUsers.Contra[1] = "ama";
         
     }
 }
@@ -134,11 +157,12 @@ class marcoLogin extends JFrame{
                         break;
                     }
                     else if(comprobarUsuario != matricesUsers.User[n]){
-                        int t=0;
+                        int t=0;//Usado para verificar si no se existe el usuario
                         for(int m = 1; m < 20; m++){
                             if(comprobarUsuario.equals(matricesUsers.User[m])){
                                 if(comprobarContra.equals(matricesUsers.Contra[m])){
                                     marcoPrincipalUsuario usuario = new marcoPrincipalUsuario();
+                                    setVisible(false);
                                     t = 1;
                                     break;
                                 }
