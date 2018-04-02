@@ -66,6 +66,39 @@ class marcoPrincipalAdmin extends JFrame{
             else if(evento.getSource()==componentesAdmin.boton[8]){
                 marcoMostrarBiblio DeleteBiblio = new marcoMostrarBiblio();  
             }
+            else if(evento.getSource()==componentesAdmin.boton[9]){
+                System.out.println("Reporte Usuarios");
+                
+                String texto = "YA LLEGUE";
+                
+                FileWriter Archivo = null;
+                PrintWriter imprimir = null;
+                
+                try{
+                    Archivo = new FileWriter("ReporteUsuarios.html");//Crear el archivo
+                }catch(IOException e){
+                    JOptionPane.showMessageDialog(marcoPrincipalAdmin.this, "No se logro crear el reporte","ERROR",0);
+                }
+                
+                imprimir = new PrintWriter(Archivo);//Crear un impresor para el HTML
+                
+                imprimir.println("<HTML>");
+                imprimir.println("<head><title>REPORTE USUARIOS</title></head>");
+                imprimir.println("<body>");
+                
+                for(int n = 1; n < 10; n++){
+                    imprimir.println("<center><h1>"+matricesUsers.Nombre[n]+"</h1></center>");
+                }
+                  
+                imprimir.println("</body>");
+                imprimir.println("</HTML>");
+                
+                imprimir.close();//SIEMPRE CERRAR EL IMPRESOR
+                
+            }
+            else if(evento.getSource()==componentesAdmin.boton[10]){
+                System.out.println("Reporte Biblio");    
+            }
         }
     }
 }

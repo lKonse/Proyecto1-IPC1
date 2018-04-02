@@ -25,13 +25,6 @@ class matricesUsers{
         User[0] = "admin";
         Contra[0] = "admin";
         Rol[0] = "admin";
-        
-        ID[1] = "201700584";
-        Nombre[1] = "Master";
-        Apellido[1] = "Chief";
-        User[1] = "Konse";
-        Contra[1] = "ama";
-        Rol[1] = "admin";
     }
 }
 //CREACION DE USUARIOS
@@ -113,6 +106,9 @@ class marcoCrearUsers extends JFrame{
                         matricesUsers.User[n]=guardarUser;
                         matricesUsers.Contra[n]=guardarContra;
                         matricesUsers.Rol[n]=guardarRol;
+                        
+                        bibliotecaVirtual.librosVirtualesUser[n][0] = guardarUser;//Guardar el usuario en la biblioteca virtual
+                        prestamoBiblio.biblioApartarUser[n][0][0] = guardarUser;//Guardar el usuario en los libros apartados
                         
                         JOptionPane.showMessageDialog(marcoCrearUsers.this, "Usuario creado con exito", 
                                 "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);
@@ -201,6 +197,7 @@ class marcoModUsers extends JFrame{
                     guardarUser = componentesUsers.tUser.getText();
                     guardarContra = componentesUsers.tContra.getText();
                     confirmContra = componentesUsers.tConfirmContra.getText();
+                    
                 
                for(int n = 1; n < 20; n++){
                    if(!guardarUser.equals(guardarUser) && guardarUser.equals(matricesUsers.User[n])){
@@ -228,6 +225,8 @@ class marcoModUsers extends JFrame{
                         matricesUsers.User[n]=guardarUser;
                         matricesUsers.Contra[n]=guardarContra;
                         matricesUsers.Rol[n]=guardarRol;
+                        
+                        bibliotecaVirtual.librosVirtualesUser[n][0] = guardarUser;
                         
                         JOptionPane.showMessageDialog(marcoModUsers.this, "Usuario modificado con exito", 
                                 "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);

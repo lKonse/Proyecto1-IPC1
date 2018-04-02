@@ -11,9 +11,9 @@ public class claseprincipal_201700584 {
     public static void main(String[] args) {
         
 //        marcoPrincipal marco = new marcoPrincipal();
-//        marcoPrincipalUsuario user = new marcoPrincipalUsuario();
+        marcoPrincipalUsuario user = new marcoPrincipalUsuario();
 //        bibliotecaVirtual vir = new bibliotecaVirtual();
-        marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
+//        marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
 //        marcoCrearUsers CrearUsers = new marcoCrearUsers();
     
     }
@@ -104,14 +104,14 @@ class ventanaLogin {
         
         matricesUsers.User[0] = "admin";
         matricesUsers.Contra[0] = "admin";
-        matricesUsers.User[1] = "Konse";
-        matricesUsers.Contra[1] = "ama";
         
     }
 }
 
 class marcoLogin extends JFrame{
-
+    
+    static String usuarioDentro;
+    
     public marcoLogin(){
         setBounds(500,175,350,400);
         setTitle("Login");
@@ -131,6 +131,7 @@ class marcoLogin extends JFrame{
     private class eventos implements ActionListener{
         String comprobarUsuario;
         String comprobarContra;
+        
             
         @Override
         public void actionPerformed(ActionEvent evento){
@@ -161,6 +162,7 @@ class marcoLogin extends JFrame{
                         for(int m = 1; m < 20; m++){
                             if(comprobarUsuario.equals(matricesUsers.User[m])){
                                 if(comprobarContra.equals(matricesUsers.Contra[m])){
+                                    usuarioDentro = matricesUsers.User[m];
                                     marcoPrincipalUsuario usuario = new marcoPrincipalUsuario();
                                     setVisible(false);
                                     t = 1;
