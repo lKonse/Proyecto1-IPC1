@@ -110,6 +110,7 @@ class bibliotecaVirtual extends JFrame{
     static JTable tabla;
     TableRowSorter trs;
     static String[][] librosVirtualesUser = new String[20][20];
+    static int[] apartadoVirtual = new int[20];
 
     public bibliotecaVirtual(){
         setTitle("Usuario");
@@ -152,20 +153,19 @@ class bibliotecaVirtual extends JFrame{
                     String titulo = String.valueOf(tabla.getValueAt(seleccion, 2));
                     
                     for(int n = 0; n < 20; n++){
+                        if(marcoLogin.usuarioDentro.equals(librosVirtualesUser[n][0])){
                         for(int m = 1; m < 20; m++){
-                            if(marcoLogin.usuarioDentro.equals(librosVirtualesUser[n][0])){
                                 if(titulo.equals(librosVirtualesUser[n][m])){
                                     JOptionPane.showMessageDialog(bibliotecaVirtual.this, "Ya tiene almacenado este libro", 
                                             "ERROR", JOptionPane.WARNING_MESSAGE);
                                     break;
                                 }
-                                else if(!titulo.equals(librosVirtualesUser[n][m])){
-                                    if(librosVirtualesUser[n][m] == null){
+                                else if(librosVirtualesUser[n][m] == null){
                                         librosVirtualesUser[n][m] = titulo;
+                                        apartadoVirtual[m]++;
                                         JOptionPane.showMessageDialog(bibliotecaVirtual.this, "Libro agregado a su biblioteca virtual", 
                                                 titulo, JOptionPane.INFORMATION_MESSAGE);
                                         break;
-                                    }
                                 }
                             }
                         }
@@ -178,8 +178,11 @@ class bibliotecaVirtual extends JFrame{
            }
            else if(evento.getSource() == (componentesBiblioVirtual.boton[3])){
                
-               
-               
+//               try{
+               verBibliotecaVirtual verVirtual = new verBibliotecaVirtual();
+//               }catch(Exception e){
+//                   JOptionPane.showMessageDialog(null, "No existe libro virtual agregado", "ERRIR", 0);
+//               }
            }
            else if(evento.getSource() == (componentesBiblioVirtual.boton[4])){
                
@@ -191,12 +194,12 @@ class bibliotecaVirtual extends JFrame{
     public void miTabla(){
              
         String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
-            "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
+            "Descripcion", "Palabras clave","Edicion","Temas"};
         
         int tamaño = 30;
         
             for(int i = 29; i >= 0; i--){
-                if(matricesBiblio.Tipo[i] == null){
+                if(matricesLibrosVirtuales.Tipo[i] == null){
                     tamaño--;
                 }
                 else{
@@ -208,22 +211,18 @@ class bibliotecaVirtual extends JFrame{
         String[][] datos = new String[tamaño][13];
         
         for(int n = 0; n < tamaño; n++){
-            if(matricesBiblio.Tipo[n].equals("Libro Virtual")){
-                datos[n][0] = String.valueOf(n+1);
-                datos[n][1] = matricesBiblio.Tipo[n];
-                datos[n][2] = matricesBiblio.Titulo[n];
-                datos[n][3] = matricesBiblio.Autor[n];
-                datos[n][4] = matricesBiblio.Año[n];
-                datos[n][5] = matricesBiblio.Descripcion[n];
-                datos[n][6] = matricesBiblio.Palabras[n][0];
-                datos[n][7] = String.valueOf(matricesBiblio.Edicion[n]);
-                datos[n][8] = matricesBiblio.Temas[n][0];
-                datos[n][9] = String.valueOf(matricesBiblio.Copias[n]);
-                datos[n][10] = String.valueOf(matricesBiblio.ISBN[n]);
-                datos[n][11] = matricesBiblio.Ejemplares[n];
-                datos[n][12] = matricesBiblio.Area[n];
-            }
-        }
+                    datos[n][0] = String.valueOf(n+1);
+                    datos[n][1] = matricesLibrosVirtuales.Tipo[n];
+                    datos[n][2] = matricesLibrosVirtuales.Titulo[n];
+                    datos[n][3] = matricesLibrosVirtuales.Autor[n];
+                    datos[n][4] = matricesLibrosVirtuales.Año[n];
+                    datos[n][5] = matricesLibrosVirtuales.Descripcion[n];
+                    datos[n][6] = matricesLibrosVirtuales.Palabras[n][0];
+                    datos[n][7] = String.valueOf(matricesLibrosVirtuales.Edicion[n]);
+                    datos[n][8] = matricesLibrosVirtuales.Temas[n][0];
+                }
+            
+       
         
         DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
         tabla = new JTable(modelo);
@@ -263,9 +262,7 @@ class componentesBiblioVirtual extends JPanel{
         boton[4] = new JButton("Buscar");
         boton[4].setBounds(new Rectangle(400, 200, 200, 50));
         add(boton[4]);
-        
-        
-        
+ 
     }
     
     @Override
@@ -302,12 +299,190 @@ class componentesBiblioVirtual extends JPanel{
     }
 }
 
+class verBibliotecaVirtual extends JFrame{
+    
+    static String libro;
+    
+    public verBibliotecaVirtual(){
+        setTitle("Usuario");
+        setBounds(175,75,800,600);
+        setResizable(false);
+        
+        componentesVerBiblioVirtual componentes = new componentesVerBiblioVirtual();
+        eventosVerBiblioVirtual e = new eventosVerBiblioVirtual();
+        
+        add(componentes);
+        
+        for(int n = 1; n < componentesVerBiblioVirtual.numBotones; n++){
+            componentesVerBiblioVirtual.boton[n].addActionListener(e);
+        }
+        
+        componentesVerBiblioVirtual.boton[1].addActionListener(e);
+    
+        setVisible(true);
+    }
+    private class eventosVerBiblioVirtual implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent evento) {
+            for(int n = 1; n < 20; n++){
+                if(evento.getSource().equals(componentesVerBiblioVirtual.boton[n])){
+                    
+                    libro = componentesVerBiblioVirtual.boton[n].getText();
+                    mostrarLibroVirtual mostrar = new mostrarLibroVirtual();
+                
+                }
+            }
+            if(evento.getSource() == componentesVerBiblioVirtual.opciones[1]){
+                setVisible(false);
+            }
+        }
+    }
+}
+
+class mostrarLibroVirtual extends JFrame{
+    public mostrarLibroVirtual(){
+        setBounds(425,200,425,425);
+        setResizable(false);
+        
+        componentesMostrarLibroVirtual componentes = new componentesMostrarLibroVirtual();
+        eventosMostrarBiblioVirtual e = new eventosMostrarBiblioVirtual();
+        componentesMostrarLibroVirtual.delete.addActionListener(e);
+        add(componentes);
+        
+        setVisible(true);
+    }  
+    private class eventosMostrarBiblioVirtual implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent evento) {
+            for(int n = 1; n < 20; n++){
+                if(marcoLogin.usuarioDentro.equals(bibliotecaVirtual.librosVirtualesUser[n][0])){
+                    for(int m = 1; m < 20; m++){
+                        if(verBibliotecaVirtual.libro.equals(bibliotecaVirtual.librosVirtualesUser[n][m])){
+                            bibliotecaVirtual.librosVirtualesUser[n][m] = null;
+                            JOptionPane.showMessageDialog(null, "Libro eliminado de la cuenta", verBibliotecaVirtual.libro, 2);
+                            bibliotecaVirtual.apartadoVirtual[m]--;
+                            setVisible(false);
+                            for(int j = 1; j < componentesVerBiblioVirtual.numBotones; j++){
+                                if(verBibliotecaVirtual.libro.equals(componentesVerBiblioVirtual.boton[j].getText())){
+                                    componentesVerBiblioVirtual.boton[j].setEnabled(false);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+class componentesMostrarLibroVirtual extends JPanel{
+    
+    static JButton delete;
+    
+    public componentesMostrarLibroVirtual(){
+        setLayout(null);
+        
+        delete = new JButton("Eliminar");
+        delete.setBounds(new Rectangle(160,325,100,50));
+        add(delete);
+    }
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        
+        for(int n = 0; n < 20; n++){
+            if(marcoLogin.usuarioDentro.equals(bibliotecaVirtual.librosVirtualesUser[n][0])){
+                for(int m = 1; m < 20; m++){
+                    if(verBibliotecaVirtual.libro.equals(bibliotecaVirtual.librosVirtualesUser[n][m])){
+                        for(int i = 0; i < 30; i++){
+                            if(verBibliotecaVirtual.libro.equals(matricesLibrosVirtuales.Titulo[i])){
+                                g.drawString("Titulo: "+verBibliotecaVirtual.libro, 50, 50);
+                                g.drawString("Autor: "+matricesLibrosVirtuales.Autor[i], 50, 75);
+                                g.drawString("Año: "+matricesLibrosVirtuales.Año[i], 50, 100);
+                                g.drawString("Descripcion: "+matricesLibrosVirtuales.Descripcion[i], 50, 125);
+                                g.drawString("Palabras: "+matricesLibrosVirtuales.Palabras[i][0], 50, 150);
+                                g.drawString("Temas: "+matricesLibrosVirtuales.Temas[i][0], 50, 175);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+class componentesVerBiblioVirtual extends JPanel{
+    
+    private Image imagen[] = new Image[3];
+    static JButton[] boton = new JButton[20];
+    static JButton[] opciones = new JButton[5];
+    static int posicionXBoton = 0, posicionYBoton = 50, numBotones = 1;
+    
+    public componentesVerBiblioVirtual(){
+        
+        posicionXBoton = 0;
+        posicionYBoton = 50;
+        numBotones = 1;
+        
+        setLayout(null);
+        
+        for(int n = 0; n < 20; n++){
+            if(marcoLogin.usuarioDentro.equals(bibliotecaVirtual.librosVirtualesUser[n][0])){
+                for(int m = 1; m < 20; m++){
+                    if(bibliotecaVirtual.librosVirtualesUser[n][m] != null){
+                        
+                        if(posicionXBoton < 300){
+                           posicionXBoton = posicionXBoton + 125; 
+                        }
+                        else if(posicionXBoton >= 300){
+                            posicionXBoton = 125;
+                            posicionYBoton = posicionYBoton + 50;
+                        }
+
+                        boton[m] = new JButton(bibliotecaVirtual.librosVirtualesUser[n][m]);
+                        boton[m].setBounds(new Rectangle(posicionXBoton,posicionYBoton,125,50));
+                        add(boton[m]);
+                        
+                        numBotones++;
+                    }
+                }
+            }
+        }
+        
+        opciones[1] = new JButton("Regresar");
+        opciones[1].setBounds(new Rectangle(600,200,100,50));
+        add(opciones[1]);
+        
+        
+    }
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        
+        File[] ubicacion = new File[3];
+        
+        ubicacion[0] = new File("src/imagenes/fondoUsers.jpg");
+        ubicacion[1] = new File("src/imagenes/usacLogo2.png");
+        
+        try{
+            imagen[0] = ImageIO.read(ubicacion[0]);
+            imagen[1] = ImageIO.read(ubicacion[1]);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "No se encontro la imagen", "ERROR", JOptionPane.ERROR);
+        }
+        g.drawImage(imagen[0], 0, 0, 1000,600, null);
+        g.drawImage(imagen[1], 600, 425, 100,100, null);
+      
+    }
+}
+
 //PRESTAMOS DE LIBROS
 class prestamoBiblio extends JFrame{
     
     static JTable tabla;
     TableRowSorter trs;
-    static String[][][] biblioApartarUser = new String[20][20][13];
+    static String[][][] biblioApartarUser = new String[20][20][14];
+    static int[] apartadaBiblio = new int[20];
     
     public prestamoBiblio(){
         setTitle("Usuario");
@@ -374,7 +549,7 @@ class prestamoBiblio extends JFrame{
                                             "ERROR", JOptionPane.WARNING_MESSAGE);
                                     break;
                                 }
-                                else if(biblioApartarUser[n][m][1] == null){
+                                else if(biblioApartarUser[n][m][2] == null){
                                     biblioApartarUser[n][m][1] = (String)gTipo;
                                     biblioApartarUser[n][m][2] = gTitulo;
                                     biblioApartarUser[n][m][3] = gAutor;
@@ -383,15 +558,17 @@ class prestamoBiblio extends JFrame{
                                     biblioApartarUser[n][m][6] = gPalabras;
                                     biblioApartarUser[n][m][7] = gEdicion;
                                     biblioApartarUser[n][m][8] = gTemas;
-                                    biblioApartarUser[n][m][9] = "1";//COPIAS
-                                    biblioApartarUser[n][m][10] = gISBN;
-                                    biblioApartarUser[n][m][11] = gEjemplares;
-                                    biblioApartarUser[n][m][12] = gArea;
+                                    biblioApartarUser[n][m][9] = String.valueOf(gCopias);//COPIAS
+                                    biblioApartarUser[n][m][10] = "1";
+                                    biblioApartarUser[n][m][11] = gISBN;
+                                    biblioApartarUser[n][m][12] = gEjemplares;
+                                    biblioApartarUser[n][m][13] = gArea;
                                     
                                     for(int i = 0; i < 30; i++){
                                         if(gTitulo.equals(matricesBiblio.Titulo[i])){
                                             
-                                                matricesBiblio.Copias[i]--;
+                                                matricesBiblio.Disponibles[i]--;
+                                                apartadaBiblio[i]++;
                                         }
                                     }
                                     
@@ -426,29 +603,82 @@ class prestamoBiblio extends JFrame{
            }
            else if(evento.getSource() == (componentesPrestamoBiblio.boton[4])){
                
+               reporteExistencias();
                
             }
         }  
     }
     
-    private void txtFiltroKeyTyped(java.awt.event.KeyEvent evt){
-            componentesPrestamoBiblio.txtFiltro.addKeyListener(new KeyAdapter(){
-                @Override
-                public void keyReleased(final KeyEvent e){
-                    String cadena = (componentesPrestamoBiblio.txtFiltro.getText());
-                    componentesPrestamoBiblio.txtFiltro.setText(cadena);
-                    repaint();
-                    filtro();
-                }
-            });
-            trsFiltro = new TableRowSorter(tabla.getModel());
-            tabla.setRowSorter(trsFiltro);
+    private void reporteExistencias(){
+        FileWriter archivo = null;
+        PrintWriter imprimir;
+        
+        try{
+        archivo = new FileWriter("ReporteExistencias.html");
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "No se logro crear el reporte, intentelo de nuevo", "ERROR", 0);
+        }
+        imprimir = new PrintWriter(archivo);
+        
+        imprimir.println("<HTML>");
+        imprimir.println("<head><title>REPORTE USUARIOS</title></head>");
+        imprimir.println("<body style=\"background-color:#ECA16D;\">");
+
+        
+        imprimir.println("<h1 align=\"center\">Bibliografia existente</h1>");
+        
+        imprimir.println("<div align=\"center\">");
+	
+	imprimir.println("<table border=\"2\" width=\"1000\" bordercolor=\"#EF1D21\" bgcolor=\"#86CED1\">");
+	
+	imprimir.println("<tr height=\"50\" bgcolor=\"#ECEAEA\">");
+        
+        imprimir.println("<th width=\"100\"> Tipo </th>");
+		
+	imprimir.println("<th width=\"400\"> Titulo </th>");
+		
+	imprimir.println("<th width=\"400\"> Autor </th>");
+        
+        imprimir.println("<th width=\"100\"> Disponibles </th>");
+        
+	imprimir.println("</tr>");
+		
+	for(int n = 0; n < 30; n++){
+            if(matricesBiblio.Titulo[n] != null){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                    
+                    imprimir.println("<td>"+ matricesBiblio.Tipo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesBiblio.Titulo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesBiblio.Autor[n] + "</td>");
+                    
+                    imprimir.println("<td>"+ matricesBiblio.Disponibles[n] + "</td>");
+
+
+                imprimir.println("</tr>");
+            }
+        }
+
+        imprimir.println("</body>");
+        imprimir.println("</HTML>");
+        
+        imprimir.close();
+        
+        Desktop des = Desktop.getDesktop();
+        File html = new File("C:\\Users\\Pablo Roca\\Documents\\NetBeansProjects\\[IPC1]Proyecto1_201700584\\ReporteExistencias.html");
+        
+        try{
+            des.open(html);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "No se logro abrir el archivo", "ERROR", 0);
+        }
     }
     
     public void miTablaApartada(){
              
         String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
-            "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
+            "Descripcion", "Palabras clave","Edicion","Temas","Copias","Disponibles","ISBN","Ejemplares","Area"};
         
         int tamaño = 30;
         
@@ -462,7 +692,7 @@ class prestamoBiblio extends JFrame{
             }
         
 
-        String[][] datos = new String[tamaño][13];
+        String[][] datos = new String[tamaño][14];
         
         for(int n = 0; n < tamaño; n++){
             if(!matricesBiblio.Tipo[n].equals("Libro Virtual")){
@@ -476,9 +706,10 @@ class prestamoBiblio extends JFrame{
                 datos[n][7] = String.valueOf(matricesBiblio.Edicion[n]);
                 datos[n][8] = matricesBiblio.Temas[n][0];
                 datos[n][9] = String.valueOf(matricesBiblio.Copias[n]);
-                datos[n][10] = String.valueOf(matricesBiblio.ISBN[n]);
-                datos[n][11] = matricesBiblio.Ejemplares[n];
-                datos[n][12] = matricesBiblio.Area[n];
+                datos[n][10] = String.valueOf(matricesBiblio.Disponibles[n]);
+                datos[n][11] = String.valueOf(matricesBiblio.ISBN[n]);
+                datos[n][12] = matricesBiblio.Ejemplares[n];
+                datos[n][13] = matricesBiblio.Area[n];
             }
         }
         
@@ -490,42 +721,11 @@ class prestamoBiblio extends JFrame{
         add(scroll);
         
     }
-    private TableRowSorter trsFiltro;
-    public void filtro(){
-        int columnaBuscar = 0;
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Titulo"){
-            columnaBuscar = 2;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Autor"){
-            columnaBuscar = 3;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Año de publicacion"){
-            columnaBuscar = 4;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Palabras"){
-            columnaBuscar = 6;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Edicion"){
-            columnaBuscar = 7;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Temas"){
-            columnaBuscar = 8;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "ISBN"){
-            columnaBuscar = 10;
-        }
-        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Area"){
-            columnaBuscar = 12;
-        }
-        trsFiltro.setRowFilter(RowFilter.regexFilter(componentesPrestamoBiblio.txtFiltro.getText(), columnaBuscar));
-    }
 }
 class componentesPrestamoBiblio extends JPanel{
     
     static JButton[] boton = new JButton[5];
     private Image imagen[] = new Image[3];
-    static JTextField txtFiltro;
-    static JComboBox comboFiltro;
     
     public componentesPrestamoBiblio(){
         setLayout(null);
@@ -546,25 +746,11 @@ class componentesPrestamoBiblio extends JPanel{
         boton[3].setBounds(new Rectangle(75, 200, 200, 50));
         add(boton[3]);
         
-        boton[4] = new JButton("Buscar");
+        boton[4] = new JButton("Reporte de existencias");
         boton[4].setBounds(new Rectangle(400, 200, 200, 50));
         add(boton[4]);
         
-        txtFiltro = new JTextField();
-        txtFiltro.setBounds(new Rectangle(400,100,200,25));
-        add(txtFiltro);
         
-        comboFiltro = new JComboBox();
-        comboFiltro.addItem("Titulo");
-        comboFiltro.addItem("Autor");
-        comboFiltro.addItem("Año de publicacion");
-        comboFiltro.addItem("Palabras");
-        comboFiltro.addItem("Edicion");
-        comboFiltro.addItem("Temas");
-        comboFiltro.addItem("ISBN");
-        comboFiltro.addItem("Area");
-        comboFiltro.setBounds(new Rectangle(400,150,200,25));
-        add(comboFiltro);
         
     }
     @Override
@@ -650,7 +836,8 @@ class verPrestamos extends JFrame{
                                     
                                     for(int j = 0; j < 30; j++){
                                         if(titulo.equals(matricesBiblio.Titulo[j])){
-                                            matricesBiblio.Copias[j]++;
+                                            matricesBiblio.Disponibles[j]++;
+                                            prestamoBiblio.apartadaBiblio[j]--;
                                         }
                                     }
                                     

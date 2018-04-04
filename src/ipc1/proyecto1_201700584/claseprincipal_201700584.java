@@ -15,6 +15,7 @@ public class claseprincipal_201700584 {
 //        bibliotecaVirtual vir = new bibliotecaVirtual();
 //        marcoPrincipalAdmin admin = new marcoPrincipalAdmin();
 //        marcoCrearUsers CrearUsers = new marcoCrearUsers();
+//        mostrarLibroVirtual b = new mostrarLibroVirtual();
     
     }
     

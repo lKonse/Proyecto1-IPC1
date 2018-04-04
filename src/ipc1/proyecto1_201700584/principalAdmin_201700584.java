@@ -70,14 +70,14 @@ class marcoPrincipalAdmin extends JFrame{
                 reportesUsuarios();
             }
             else if(evento.getSource()==componentesAdmin.boton[10]){
-                System.out.println("Reporte Biblio");    
+                reportesBiblio();   
             }
         }
     }
     public void reportesUsuarios(){
                 
         FileWriter Archivo = null;
-        PrintWriter imprimir = null;
+        PrintWriter imprimir;
 
         try{
             Archivo = new FileWriter("ReporteUsuarios.html");//Crear el archivo
@@ -184,6 +184,135 @@ class marcoPrincipalAdmin extends JFrame{
         
         Desktop des = Desktop.getDesktop();
         File html = new File("C:\\Users\\Pablo Roca\\Documents\\NetBeansProjects\\[IPC1]Proyecto1_201700584\\ReporteUsuarios.html");
+        try{
+            des.open(html);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "No se logro abrir el archivo", "ERROR", 0);
+        }
+    }
+    
+    public void reportesBiblio(){
+        FileWriter archivo = null;
+        PrintWriter imprimir;
+        int numeroMayorBiblio, numeroMayorVirtual;
+        
+        try{
+        archivo = new FileWriter("ReportesBibliografia.html");
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "No se logro crear el reporte, intentelo de nuevo", "ERROR", 0);
+        }
+        imprimir = new PrintWriter(archivo);
+        
+        imprimir.println("<HTML>");
+        imprimir.println("<head><title>REPORTE USUARIOS</title></head>");
+        imprimir.println("<body style=\"background-color:#ECA16D;\">");
+        
+        numeroMayorBiblio = 0;
+        numeroMayorVirtual = 0;
+
+        
+        
+        imprimir.println("<h1 align=\"center\">Libros existentes</h1>");
+        
+        imprimir.println("<div align=\"center\">");
+	
+	imprimir.println("<table border=\"2\" width=\"1000\" bordercolor=\"#EF1D21\" bgcolor=\"#86CED1\">");
+	
+	imprimir.println("<tr height=\"50\" bgcolor=\"#ECEAEA\">");
+        
+        imprimir.println("<th width=\"200\"> Tipo </th>");
+		
+	imprimir.println("<th width=\"400\"> Titulo </th>");
+		
+	imprimir.println("<th width=\"400\"> Autor </th>");
+        
+	imprimir.println("</tr>");
+		
+	for(int n = 1; n < 20; n++){
+            if(matricesBiblio.Titulo[n] != null){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                    
+                    imprimir.println("<td>"+ matricesBiblio.Tipo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesBiblio.Titulo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesBiblio.Autor[n] + "</td>");
+
+
+                imprimir.println("</tr>");
+            }
+            if(matricesLibrosVirtuales.Titulo[n] != null){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                    
+                    imprimir.println("<td>"+ matricesLibrosVirtuales.Tipo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesLibrosVirtuales.Titulo[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesLibrosVirtuales.Autor[n] + "</td>");
+
+
+                imprimir.println("</tr>");
+            }
+        }
+        
+        for(int n = 0; n < prestamoBiblio.apartadaBiblio.length; n++){
+            if(prestamoBiblio.apartadaBiblio[n]>numeroMayorBiblio){
+                numeroMayorBiblio = prestamoBiblio.apartadaBiblio[n];
+            }
+        }
+        
+        for(int n = 0; n < bibliotecaVirtual.apartadoVirtual.length; n++){
+            if(bibliotecaVirtual.apartadoVirtual[n]>numeroMayorVirtual){
+                numeroMayorVirtual = bibliotecaVirtual.apartadoVirtual[n];
+            }
+        }
+	
+	imprimir.println("</table>");
+
+        
+        imprimir.println("<h1 align=\"center\">Bibliografia mas prestada actualmente</h1>");
+        
+        imprimir.println("<div align=\"center\">");
+	
+        imprimir.println("<table border=\"2\" width=\"1000\" bordercolor=\"#EF1D21\" bgcolor=\"#86CED1\">");
+
+        imprimir.println("<tr height=\"50\" bgcolor=\"#ECEAEA\">");
+        
+        imprimir.println("<th width=\"200\"> Tipo </th>");
+
+        imprimir.println("<th width=\"400\"> Titulo </th>");
+
+        imprimir.println("<th width=\"400\"> Autor </th>");
+
+        imprimir.println("</tr>");
+        
+        for(int n = 0; n < 20; n++){
+            if(numeroMayorBiblio == prestamoBiblio.apartadaBiblio[n]){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                imprimir.println("<td>"+ matricesBiblio.Tipo[n] + "</td>");
+                imprimir.println("<td>"+ matricesBiblio.Titulo[n] + "</td>");
+                imprimir.println("<td>"+matricesBiblio.Autor[n]+"</td>");
+                imprimir.println("</tr>");
+            }
+            if(numeroMayorVirtual == bibliotecaVirtual.apartadoVirtual[n]){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                imprimir.println("<td>"+ matricesLibrosVirtuales.Tipo[n] + "</td>");
+                imprimir.println("<td>"+ matricesLibrosVirtuales.Titulo[n] + "</td>");
+                imprimir.println("<td>"+matricesLibrosVirtuales.Autor[n]+"</td>");
+                imprimir.println("</tr>");
+            }
+        }
+        
+        
+
+        imprimir.println("</body>");
+        imprimir.println("</HTML>");
+        
+        imprimir.close();
+        
+        Desktop des = Desktop.getDesktop();
+        File html = new File("C:\\Users\\Pablo Roca\\Documents\\NetBeansProjects\\[IPC1]Proyecto1_201700584\\ReportesBibliografia.html");
+        
         try{
             des.open(html);
         }catch(IOException e){

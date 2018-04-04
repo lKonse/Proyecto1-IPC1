@@ -21,13 +21,22 @@ class matricesBiblio{
     static int[] Edicion = new int[30];
     static String[][] Temas = new String[30][30];
     static int[] Copias = new int[30];
+    static int[] Disponibles = new int[30];
     static int[] ISBN = new int[30];
     static String[] Ejemplares = new String[30];
     static String[] Area = new String[30];
-    
-    public matricesBiblio(){
-        
-    }
+}
+
+class matricesLibrosVirtuales{
+    static String[] Tipo = new String[30];
+    static String[] Autor = new String[30]; 
+    static String[] Titulo = new String[30];
+    static String[] Año = new String[30]; 
+    static String[] Descripcion = new String[30]; 
+    static String[][] Palabras = new String[30][10];
+    static int[] Edicion = new int[30];
+    static String[][] Temas = new String[30][30];
+    static int[] Copias = new int[30];
 }
 
 class limpiarCampos{
@@ -169,6 +178,7 @@ class marcoCrearBiblio extends marcoBiblio{
                                         matricesBiblio.Edicion[m] = gEdicion;
                                         matricesBiblio.Temas[m][0] = gTemas;
                                         matricesBiblio.Copias[m] = gCopias;
+                                        matricesBiblio.Disponibles[m] = gCopias;
                                         matricesBiblio.ISBN[m] = gISBN;
                                         break;
                                     }
@@ -186,6 +196,7 @@ class marcoCrearBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.ISBN[n] = gISBN;
                             JOptionPane.showMessageDialog(marcoCrearBiblio.this, "Libro guardado con exito", "Carga exitosa", 1);
                             break;
@@ -215,6 +226,7 @@ class marcoCrearBiblio extends marcoBiblio{
                                         matricesBiblio.Edicion[m] = gEdicion;
                                         matricesBiblio.Temas[m][0] = gTemas;
                                         matricesBiblio.Copias[m] = gCopias;
+                                        matricesBiblio.Disponibles[n] = gCopias;
                                         matricesBiblio.Ejemplares[m] = gEjemplares;
                                         break;
                                     }
@@ -232,6 +244,7 @@ class marcoCrearBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.Ejemplares[n] = gEjemplares;
                             JOptionPane.showMessageDialog(marcoCrearBiblio.this, "Revista guardada con exito", "Carga exitosa", 1);
                             break;
@@ -247,6 +260,7 @@ class marcoCrearBiblio extends marcoBiblio{
                         if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
                             if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
                                 matricesBiblio.Copias[n] += gCopias;
+                                matricesBiblio.Disponibles[n] += gCopias;
                                 break;
                             }
                             else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
@@ -262,6 +276,7 @@ class marcoCrearBiblio extends marcoBiblio{
                                         matricesBiblio.Edicion[m] = gEdicion;
                                         matricesBiblio.Temas[m][0] = gTemas;
                                         matricesBiblio.Copias[m] = gCopias;
+                                        matricesBiblio.Disponibles[n] = gCopias;
                                         matricesBiblio.Area[m] = gArea;
                                         break;
                                     }
@@ -279,6 +294,7 @@ class marcoCrearBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.Area[n] = gArea;
                             JOptionPane.showMessageDialog(marcoCrearBiblio.this, "Tesis guardada con exito", "Carga exitosa", 1);
                             break;
@@ -286,15 +302,15 @@ class marcoCrearBiblio extends marcoBiblio{
                     }
                     }
                     else if(opcion == 4){
-                        if(matricesBiblio.Titulo[n] == null){
-                            matricesBiblio.Tipo[n] = (String)gTipo;
-                            matricesBiblio.Titulo[n] = gTitulo;
-                            matricesBiblio.Autor[n] = gAutor;
-                            matricesBiblio.Año[n] = gAño;
-                            matricesBiblio.Descripcion[n] = gDescripcion;
-                            matricesBiblio.Palabras[n][0] = gPalabras;
-                            matricesBiblio.Edicion[n] = gEdicion;
-                            matricesBiblio.Temas[n][0] = gTemas;
+                        if(matricesLibrosVirtuales.Titulo[n] == null){
+                            matricesLibrosVirtuales.Tipo[n] = (String)gTipo;
+                            matricesLibrosVirtuales.Titulo[n] = gTitulo;
+                            matricesLibrosVirtuales.Autor[n] = gAutor;
+                            matricesLibrosVirtuales.Año[n] = gAño;
+                            matricesLibrosVirtuales.Descripcion[n] = gDescripcion;
+                            matricesLibrosVirtuales.Palabras[n][0] = gPalabras;
+                            matricesLibrosVirtuales.Edicion[n] = gEdicion;
+                            matricesLibrosVirtuales.Temas[n][0] = gTemas;
                             JOptionPane.showMessageDialog(marcoCrearBiblio.this, "Libro virtual guardado con exito", "Carga exitosa", 1);
                             break;
                         }
@@ -421,25 +437,24 @@ class marcoModBiblio extends marcoBiblio{
                             componentesBiblio.tArea.setText(matricesBiblio.Area[n]);
                             break;
                         }
-                        else if(matricesBiblio.Tipo[n].equals("Libro Virtual")){
+                    }
+                    else if(verTitulo.equals(matricesLibrosVirtuales.Titulo[n])){
+                        limpiarCampos limpiar = new limpiarCampos();
                             
-                            limpiarCampos limpiar = new limpiarCampos();
-                            
-                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
+                            componentesBiblio.tTitulo.setText(matricesLibrosVirtuales.Titulo[n]);
                             componentesBiblio.tEjemplares.setEditable(false);
                             componentesBiblio.tArea.setEditable(false);
                             componentesBiblio.tISBN.setEditable(false);
                             componentesBiblio.tCopias.setEditable(false);
                             
-                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
-                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
-                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
-                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
-                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
-                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
-                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                            componentesBiblio.txtTipo.setText(matricesLibrosVirtuales.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesLibrosVirtuales.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesLibrosVirtuales.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesLibrosVirtuales.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesLibrosVirtuales.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesLibrosVirtuales.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesLibrosVirtuales.Temas[n][0]);
                             break;
-                        }
                     }
                 }
             }
@@ -472,42 +487,18 @@ class marcoModBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.ISBN[n] = gISBN;
                             JOptionPane.showMessageDialog(marcoModBiblio.this, "Libro modificado con exito", "Carga exitosa", 1);
                             break;
                         }
                     }
-                    if(gTipo.equals("Revista")){
+                    else if(gTipo.equals("Revista")){
                         
                         gCopias = Integer.parseInt(componentesBiblio.tCopias.getText());
                         gEjemplares = componentesBiblio.tEjemplares.getText(); 
                         
-                        if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
-                            if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
-                                matricesBiblio.Copias[n] += gCopias;
-                                break;
-                            }
-                            else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
-                                for(int m = 0; m < 30; m++){
-                                    if(matricesBiblio.Titulo[m] == null){
-
-                                        matricesBiblio.Tipo[m] = (String)gTipo;
-                                        matricesBiblio.Titulo[m] = gTitulo;
-                                        matricesBiblio.Autor[m] = gAutor;
-                                        matricesBiblio.Año[m] = gAño;
-                                        matricesBiblio.Descripcion[m] = gDescripcion;
-                                        matricesBiblio.Palabras[m][0] = gPalabras;
-                                        matricesBiblio.Edicion[m] = gEdicion;
-                                        matricesBiblio.Temas[m][0] = gTemas;
-                                        matricesBiblio.Copias[m] = gCopias;
-                                        matricesBiblio.Ejemplares[m] = gEjemplares;
-                                        break;
-                                    }
-                                }
-                            }
-                         break;   
-                        }
-                        else if(matricesBiblio.Titulo[n] == null){
+                        if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe 
                             matricesBiblio.Tipo[n] = (String)gTipo;
                             matricesBiblio.Titulo[n] = gTitulo;
                             matricesBiblio.Autor[n] = gAutor;
@@ -517,10 +508,11 @@ class marcoModBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.Ejemplares[n] = gEjemplares;
                             JOptionPane.showMessageDialog(marcoModBiblio.this, "Revista modificada con exito", "Carga exitosa", 1);
                             break;
-                        }
+                        } 
                     }
                     else if(gTipo.equals("Tesis")){
                         
@@ -528,31 +520,7 @@ class marcoModBiblio extends marcoBiblio{
                         gArea = componentesBiblio.tArea.getText();
                         
                         if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
-                            if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
-                                matricesBiblio.Copias[n] += gCopias;
-                                break;
-                            }
-                            else if(gEdicion != matricesBiblio.Edicion[n]){//Si es otra edicion, guardarlo como nuevo libro
-                                for(int m = 0; m < 30; m++){
-                                    if(matricesBiblio.Titulo[m] == null){
-
-                                        matricesBiblio.Tipo[m] = (String)gTipo;
-                                        matricesBiblio.Titulo[m] = gTitulo;
-                                        matricesBiblio.Autor[m] = gAutor;
-                                        matricesBiblio.Año[m] = gAño;
-                                        matricesBiblio.Descripcion[m] = gDescripcion;
-                                        matricesBiblio.Palabras[m][0] = gPalabras;
-                                        matricesBiblio.Edicion[m] = gEdicion;
-                                        matricesBiblio.Temas[m][0] = gTemas;
-                                        matricesBiblio.Copias[m] = gCopias;
-                                        matricesBiblio.Area[m] = gArea;
-                                        break;
-                                    }
-                                }
-                            }
-                         break;   
-                        }
-                        else if(matricesBiblio.Titulo[n] == null){
+                            
                             matricesBiblio.Tipo[n] = (String)gTipo;
                             matricesBiblio.Titulo[n] = gTitulo;
                             matricesBiblio.Autor[n] = gAutor;
@@ -562,27 +530,32 @@ class marcoModBiblio extends marcoBiblio{
                             matricesBiblio.Edicion[n] = gEdicion;
                             matricesBiblio.Temas[n][0] = gTemas;
                             matricesBiblio.Copias[n] = gCopias;
+                            matricesBiblio.Disponibles[n] = gCopias;
                             matricesBiblio.Area[n] = gArea;
                             JOptionPane.showMessageDialog(marcoModBiblio.this, "Tesis modificada con exito", "Carga exitosa", 1);
                             break;
                         }
                     }
                     else if(gTipo.equals("Libro Virtual")){
-                        if(matricesBiblio.Titulo[n] == null){
-                            matricesBiblio.Tipo[n] = (String)gTipo;
-                            matricesBiblio.Titulo[n] = gTitulo;
-                            matricesBiblio.Autor[n] = gAutor;
-                            matricesBiblio.Año[n] = gAño;
-                            matricesBiblio.Descripcion[n] = gDescripcion;
-                            matricesBiblio.Palabras[n][0] = gPalabras;
-                            matricesBiblio.Edicion[n] = gEdicion;
-                            matricesBiblio.Temas[n][0] = gTemas;
+                        
+                        
+                        if(gTitulo.equals(matricesLibrosVirtuales.Titulo[n])){//Si es otra edicion, guardarlo como nuevo libro
+
+                            matricesLibrosVirtuales.Tipo[n] = (String)gTipo;
+                            matricesLibrosVirtuales.Titulo[n] = gTitulo;
+                            matricesLibrosVirtuales.Autor[n] = gAutor;
+                            matricesLibrosVirtuales.Año[n] = gAño;
+                            matricesLibrosVirtuales.Descripcion[n] = gDescripcion;
+                            matricesLibrosVirtuales.Palabras[n][0] = gPalabras;
+                            matricesLibrosVirtuales.Edicion[n] = gEdicion;
+                            matricesLibrosVirtuales.Temas[n][0] = gTemas;
                             JOptionPane.showMessageDialog(marcoModBiblio.this, "Libro virtual modificado con exito", "Carga exitosa", 1);
                             break;
+                        
                         }
                     }
-                }
                 limpiarCampos limpiar = new limpiarCampos();
+                }
             }
             else if(evento.getSource()==componentesBiblio.bCancelar){
                 limpiarCampos limpiar = new limpiarCampos();
@@ -590,9 +563,10 @@ class marcoModBiblio extends marcoBiblio{
             else if(evento.getSource()==componentesBiblio.bRegresar){
                 setVisible(false);
             }
+            }
         }
     }
-}
+
 
 class marcoDeleteBiblio extends marcoBiblio{
     public marcoDeleteBiblio(){        
@@ -695,21 +669,19 @@ class marcoDeleteBiblio extends marcoBiblio{
                             componentesBiblio.tArea.setText(matricesBiblio.Area[n]);
                             break;
                         }
-                        else if(matricesBiblio.Tipo[n].equals("Libro Virtual")){
-                            
+                    }
+                    else if(verTitulo.equals(matricesLibrosVirtuales.Titulo[n])){
                             limpiarCampos limpiar = new limpiarCampos();
-                            
-                            componentesBiblio.tTitulo.setText(matricesBiblio.Titulo[n]);
-                            
-                            componentesBiblio.txtTipo.setText(matricesBiblio.Tipo[n]);
-                            componentesBiblio.tAutor.setText(matricesBiblio.Autor[n]);
-                            componentesBiblio.tAño.setText(matricesBiblio.Año[n]);
-                            componentesBiblio.tDescripcion.setText(matricesBiblio.Descripcion[n]);
-                            componentesBiblio.tPalabras.setText(matricesBiblio.Palabras[n][0]);
-                            componentesBiblio.tEdicion.setText(String.valueOf(matricesBiblio.Edicion[n]));
-                            componentesBiblio.tTemas.setText(matricesBiblio.Temas[n][0]);
+                             
+                            componentesBiblio.tTitulo.setText(matricesLibrosVirtuales.Titulo[n]);
+                            componentesBiblio.txtTipo.setText(matricesLibrosVirtuales.Tipo[n]);
+                            componentesBiblio.tAutor.setText(matricesLibrosVirtuales.Autor[n]);
+                            componentesBiblio.tAño.setText(matricesLibrosVirtuales.Año[n]);
+                            componentesBiblio.tDescripcion.setText(matricesLibrosVirtuales.Descripcion[n]);
+                            componentesBiblio.tPalabras.setText(matricesLibrosVirtuales.Palabras[n][0]);
+                            componentesBiblio.tEdicion.setText(String.valueOf(matricesLibrosVirtuales.Edicion[n]));
+                            componentesBiblio.tTemas.setText(matricesLibrosVirtuales.Temas[n][0]);
                             break;
-                        }
                     }
                 }
             }
@@ -731,6 +703,7 @@ class marcoDeleteBiblio extends marcoBiblio{
                         matricesBiblio.Edicion[n] = 0;
                         matricesBiblio.Temas[n][0] = null;
                         matricesBiblio.Copias[n] = 0;
+                        matricesBiblio.Disponibles[n] = 0;
                         matricesBiblio.ISBN[n] = 0;
                         matricesBiblio.Ejemplares[n] = null;
                         matricesBiblio.Area[n] = null;
@@ -742,6 +715,24 @@ class marcoDeleteBiblio extends marcoBiblio{
                         componentesBiblio.txtTipo.setText(null);
                         
                         break;
+                    }
+                    else if(gTitulo.equals(matricesLibrosVirtuales.Titulo[n])){
+                        matricesLibrosVirtuales.Tipo[n] = null;
+                        matricesLibrosVirtuales.Titulo[n] = null;
+                        matricesLibrosVirtuales.Autor[n] = null;
+                        matricesLibrosVirtuales.Año[n] = null;
+                        matricesLibrosVirtuales.Descripcion[n] = null;
+                        matricesLibrosVirtuales.Palabras[n][0] = null;
+                        matricesLibrosVirtuales.Edicion[n] = 0;
+                        matricesLibrosVirtuales.Temas[n][0] = null;
+                        matricesLibrosVirtuales.Copias[n] = 0;
+                        matricesBiblio.Disponibles[n] = 0;
+                        
+                        JOptionPane.showMessageDialog(marcoDeleteBiblio.this, "Bibliografia eliminada con exito", 
+                                "eliminar Bibliografia", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        limpiarCampos eliminar = new limpiarCampos();
+                        componentesBiblio.txtTipo.setText(null);
                     }
                }
             }
@@ -759,7 +750,7 @@ class marcoMostrarBiblio extends JFrame{//TABLA
     
     
     private String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
-        "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
+        "Descripcion", "Palabras clave","Edicion","Temas","Copias","Disponibles","ISBN","Ejemplares","Area"};
     
     public marcoMostrarBiblio(){
 
@@ -782,22 +773,33 @@ class marcoMostrarBiblio extends JFrame{//TABLA
     public void miTabla(){
         
         int tamaño = 30;
+        int tamañoVirtual = 30;
+        int numBiblio = 0;
         
             for(int i = 29; i >= 0; i--){
-                if(matricesBiblio.Tipo[i] == null){
+                if(matricesBiblio.Titulo[i] == null){
                     tamaño--;
                 }
                 else{
                     break;
                 }
             }
-        
+            
+            for(int i = 29; i >= 0; i--){
+                if(matricesLibrosVirtuales.Titulo[i] == null){
+                    tamañoVirtual--;
+                }
+                else{
+                    break;
+                }
+            }
+        //matricesLibrosVirtuales
 
-        String[][] datos = new String[tamaño][14];
+        String[][] datos = new String[tamaño+tamañoVirtual][14];
         
         for(int n = 0; n < tamaño; n++){
             
-            datos[n][0] = String.valueOf(n+1);
+            datos[n][0] = String.valueOf(numBiblio+1);
             datos[n][1] = matricesBiblio.Tipo[n];
             datos[n][2] = matricesBiblio.Titulo[n];
             datos[n][3] = matricesBiblio.Autor[n];
@@ -807,9 +809,29 @@ class marcoMostrarBiblio extends JFrame{//TABLA
             datos[n][7] = String.valueOf(matricesBiblio.Edicion[n]);
             datos[n][8] = matricesBiblio.Temas[n][0];
             datos[n][9] = String.valueOf(matricesBiblio.Copias[n]);
-            datos[n][10] = String.valueOf(matricesBiblio.ISBN[n]);
-            datos[n][11] = matricesBiblio.Ejemplares[n];
-            datos[n][12] = matricesBiblio.Area[n];
+            datos[n][10] = String.valueOf(matricesBiblio.Disponibles[n]);
+            datos[n][11] = String.valueOf(matricesBiblio.ISBN[n]);
+            datos[n][12] = matricesBiblio.Ejemplares[n];
+            datos[n][13] = matricesBiblio.Area[n];
+            numBiblio++;
+        }
+        
+        for(int n = 0; n < tamaño+tamañoVirtual; n++){
+            for(int m = 0; m < tamaño+tamañoVirtual; m++){
+                if(datos[m][2] == null){
+                    datos[m][0] = String.valueOf(numBiblio+1);
+                    datos[m][1] = matricesLibrosVirtuales.Tipo[n];
+                    datos[m][2] = matricesLibrosVirtuales.Titulo[n];
+                    datos[m][3] = matricesLibrosVirtuales.Autor[n];
+                    datos[m][4] = matricesLibrosVirtuales.Año[n];
+                    datos[m][5] = matricesLibrosVirtuales.Descripcion[n];
+                    datos[m][6] = matricesLibrosVirtuales.Palabras[n][0];
+                    datos[m][7] = String.valueOf(matricesLibrosVirtuales.Edicion[n]);
+                    datos[m][8] = matricesLibrosVirtuales.Temas[n][0];
+                    numBiblio++;
+                    break;
+                }
+            }
         }
         
         DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
@@ -920,6 +942,7 @@ class marcoCargaMasiva extends marcoBiblio{
                                             matricesBiblio.Edicion[m] = gEdicion;
                                             matricesBiblio.Temas[m][0] = gTemas;
                                             matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.Disponibles[m] = gCopias;
                                             matricesBiblio.ISBN[m] = gISBN;
                                             break;
                                         }
@@ -937,6 +960,7 @@ class marcoCargaMasiva extends marcoBiblio{
                                 matricesBiblio.Edicion[n] = gEdicion;
                                 matricesBiblio.Temas[n][0] = gTemas;
                                 matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.Disponibles[n] = gCopias;
                                 matricesBiblio.ISBN[n] = gISBN;
                                 break;
                             }
@@ -964,6 +988,7 @@ class marcoCargaMasiva extends marcoBiblio{
                                             matricesBiblio.Edicion[m] = gEdicion;
                                             matricesBiblio.Temas[m][0] = gTemas;
                                             matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.Disponibles[m] = gCopias;
                                             matricesBiblio.Ejemplares[m] = gEjemplares;
                                             break;
                                         }
@@ -981,6 +1006,7 @@ class marcoCargaMasiva extends marcoBiblio{
                                 matricesBiblio.Edicion[n] = gEdicion;
                                 matricesBiblio.Temas[n][0] = gTemas;
                                 matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.Disponibles[n] = gCopias;
                                 matricesBiblio.Ejemplares[n] = gEjemplares;
                                 break;
                             }
@@ -1008,6 +1034,7 @@ class marcoCargaMasiva extends marcoBiblio{
                                             matricesBiblio.Edicion[m] = gEdicion;
                                             matricesBiblio.Temas[m][0] = gTemas;
                                             matricesBiblio.Copias[m] = gCopias;
+                                            matricesBiblio.Disponibles[m] = gCopias;
                                             matricesBiblio.Area[m] = gArea;
                                             break;
                                         }
@@ -1025,20 +1052,21 @@ class marcoCargaMasiva extends marcoBiblio{
                                 matricesBiblio.Edicion[n] = gEdicion;
                                 matricesBiblio.Temas[n][0] = gTemas;
                                 matricesBiblio.Copias[n] = gCopias;
+                                matricesBiblio.Disponibles[n] = gCopias;
                                 matricesBiblio.Area[n] = gArea;
                                 break;
                             }
                         }
                         else if(gTipo.equals("Libro Virtual")){
-                            if(matricesBiblio.Titulo[n] == null){
-                                matricesBiblio.Tipo[n] = (String)gTipo;
-                                matricesBiblio.Titulo[n] = gTitulo;
-                                matricesBiblio.Autor[n] = gAutor;
-                                matricesBiblio.Año[n] = gAño;
-                                matricesBiblio.Descripcion[n] = gDescripcion;
-                                matricesBiblio.Palabras[n][0] = gPalabras;
-                                matricesBiblio.Edicion[n] = gEdicion;
-                                matricesBiblio.Temas[n][0] = gTemas;
+                            if(matricesLibrosVirtuales.Titulo[n] == null){
+                                matricesLibrosVirtuales.Tipo[n] = (String)gTipo;
+                                matricesLibrosVirtuales.Titulo[n] = gTitulo;
+                                matricesLibrosVirtuales.Autor[n] = gAutor;
+                                matricesLibrosVirtuales.Año[n] = gAño;
+                                matricesLibrosVirtuales.Descripcion[n] = gDescripcion;
+                                matricesLibrosVirtuales.Palabras[n][0] = gPalabras;
+                                matricesLibrosVirtuales.Edicion[n] = gEdicion;
+                                matricesLibrosVirtuales.Temas[n][0] = gTemas;
                                 break;
                             }
                         }
