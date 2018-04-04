@@ -67,38 +67,127 @@ class marcoPrincipalAdmin extends JFrame{
                 marcoMostrarBiblio DeleteBiblio = new marcoMostrarBiblio();  
             }
             else if(evento.getSource()==componentesAdmin.boton[9]){
-                System.out.println("Reporte Usuarios");
-                
-                String texto = "YA LLEGUE";
-                
-                FileWriter Archivo = null;
-                PrintWriter imprimir = null;
-                
-                try{
-                    Archivo = new FileWriter("ReporteUsuarios.html");//Crear el archivo
-                }catch(IOException e){
-                    JOptionPane.showMessageDialog(marcoPrincipalAdmin.this, "No se logro crear el reporte","ERROR",0);
-                }
-                
-                imprimir = new PrintWriter(Archivo);//Crear un impresor para el HTML
-                
-                imprimir.println("<HTML>");
-                imprimir.println("<head><title>REPORTE USUARIOS</title></head>");
-                imprimir.println("<body>");
-                
-                for(int n = 1; n < 10; n++){
-                    imprimir.println("<center><h1>"+matricesUsers.Nombre[n]+"</h1></center>");
-                }
-                  
-                imprimir.println("</body>");
-                imprimir.println("</HTML>");
-                
-                imprimir.close();//SIEMPRE CERRAR EL IMPRESOR
-                
+                reportesUsuarios();
             }
             else if(evento.getSource()==componentesAdmin.boton[10]){
                 System.out.println("Reporte Biblio");    
             }
+        }
+    }
+    public void reportesUsuarios(){
+                
+        FileWriter Archivo = null;
+        PrintWriter imprimir = null;
+
+        try{
+            Archivo = new FileWriter("ReporteUsuarios.html");//Crear el archivo
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(marcoPrincipalAdmin.this, "No se logro crear el reporte","ERROR",0);
+        }
+
+        imprimir = new PrintWriter(Archivo);//Crear un impresor para el HTML
+
+        imprimir.println("<HTML>");
+        imprimir.println("<head><title>REPORTE USUARIOS</title></head>");
+        imprimir.println("<body style=\"background-color:#ECA16D;\">");
+        
+        int tamaño = 20;
+        
+            for(int i = 19; i >= 0; i--){
+                if(matricesUsers.ID[i] == null){
+                    tamaño--;
+                }
+                else{
+                    break;
+                }
+            }
+        
+        
+        imprimir.println("<h1 align=\"center\">Usuarios existentes</h1>");
+        
+        imprimir.println("<div align=\"center\">");
+	
+	imprimir.println("<table border=\"2\" width=\"1000\" bordercolor=\"#EF1D21\" bgcolor=\"#86CED1\">");
+	
+	imprimir.println("<tr height=\"50\" bgcolor=\"#ECEAEA\">");
+
+	imprimir.println("<th width=\"50\"> No. </th>");
+        
+        imprimir.println("<th width=\"100\"> ID </th>");
+		
+	imprimir.println("<th width=\"150\"> Usuario </th>");
+		
+	imprimir.println("<th width=\"125\"> Nombre </th>");
+			
+	imprimir.println("<th width=\"125\"> Apellido </th>");
+        
+	imprimir.println("</tr>");
+		
+	for(int n = 1; n < 20; n++){
+            if(matricesUsers.User[n] != null){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+
+                    imprimir.println("<td>" + n + "</td>");
+                    
+                    imprimir.println("<td>"+ matricesUsers.ID[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesUsers.User[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesUsers.Nombre[n] + "</td>");
+
+                    imprimir.println("<td>"+ matricesUsers.Apellido[n] + "</td>");
+
+                imprimir.println("</tr>");
+            }
+        }
+	
+	imprimir.println("</table>");
+
+        
+        imprimir.println("<h1 align=\"center\">Usuarios con libros prestados</h1>");
+        
+        imprimir.println("<div align=\"center\">");
+	
+        imprimir.println("<table border=\"2\" width=\"1000\" bordercolor=\"#EF1D21\" bgcolor=\"#86CED1\">");
+
+        imprimir.println("<tr height=\"50\" bgcolor=\"#ECEAEA\">");
+
+        imprimir.println("<th width=\"200\"> Usuario </th>");
+
+        imprimir.println("<th width=\"800\"> Bibliografias apartadas </th>");
+
+        imprimir.println("</tr>");
+        
+        for(int n = 0; n < 20; n++){
+            if(prestamoBiblio.biblioApartarUser[n][0][0] != null){
+                imprimir.println("<tr height=\"30\" bgcolor=\"#86CED1\" align=\"center\">");
+                imprimir.println("<td>"+ prestamoBiblio.biblioApartarUser[n][0][0] + "</td>");
+                
+                imprimir.println("<td>");
+                for(int m = 1; m < 20; m++){
+                    if(prestamoBiblio.biblioApartarUser[n][m][1] != null){
+                        
+                        imprimir.print(prestamoBiblio.biblioApartarUser[n][m][2] + ", ");
+
+                    }
+                }
+                imprimir.println("<td>");
+                
+                imprimir.println("</tr>");
+            }
+        }
+
+        imprimir.println("</body>");
+        imprimir.println("</HTML>");
+
+        imprimir.close();//SIEMPRE CERRAR EL IMPRESOR
+        
+        Desktop des = Desktop.getDesktop();
+        File html = new File("C:\\Users\\Pablo Roca\\Documents\\NetBeansProjects\\[IPC1]Proyecto1_201700584\\ReporteUsuarios.html");
+        try{
+            des.open(html);
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "No se logro abrir el archivo", "ERROR", 0);
         }
     }
 }

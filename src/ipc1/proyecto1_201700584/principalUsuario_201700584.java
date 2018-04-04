@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.imageio.ImageIO;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 
 public class principalUsuario_201700584 {
     public principalUsuario_201700584(){
@@ -193,11 +193,14 @@ class bibliotecaVirtual extends JFrame{
         String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
             "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
         
-        int tamaño = 0;
+        int tamaño = 30;
         
-            for(int i = 0; i < 30; i++){
-               if(matricesBiblio.Tipo[i] != null){
-                    tamaño++;
+            for(int i = 29; i >= 0; i--){
+                if(matricesBiblio.Tipo[i] == null){
+                    tamaño--;
+                }
+                else{
+                    break;
                 }
             }
         
@@ -222,8 +225,8 @@ class bibliotecaVirtual extends JFrame{
             }
         }
         
-        
-        tabla = new JTable(datos, nombreColumnas);
+        DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
+        tabla = new JTable(modelo);
         tabla.setBounds(40,40,200,300);
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setBounds(25,275,950,275);
@@ -344,6 +347,8 @@ class prestamoBiblio extends JFrame{
            }
            else if(evento.getSource() == (componentesPrestamoBiblio.boton[2])){
                
+               
+               
                try{
                     int seleccion = tabla.getSelectedRow();
                     
@@ -360,10 +365,10 @@ class prestamoBiblio extends JFrame{
                     gEjemplares = String.valueOf(tabla.getValueAt(seleccion, 11));
                     gArea = String.valueOf(tabla.getValueAt(seleccion, 12));
                     
-                    
+                    if(gCopias > 0){
                     for(int n = 0; n < 20; n++){
+                        if(marcoLogin.usuarioDentro.equals(biblioApartarUser[n][0][0])){
                         for(int m = 1; m < 20; m++){
-                            if(marcoLogin.usuarioDentro.equals(biblioApartarUser[n][0][0])){
                                 if(gTitulo.equals(biblioApartarUser[n][m][2])){
                                     JOptionPane.showMessageDialog(prestamoBiblio.this, "Ya tiene almacenado esta "+ gTipo, 
                                             "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -379,10 +384,16 @@ class prestamoBiblio extends JFrame{
                                     biblioApartarUser[n][m][7] = gEdicion;
                                     biblioApartarUser[n][m][8] = gTemas;
                                     biblioApartarUser[n][m][9] = "1";//COPIAS
-                                    matricesBiblio.Copias[n]--;
                                     biblioApartarUser[n][m][10] = gISBN;
                                     biblioApartarUser[n][m][11] = gEjemplares;
                                     biblioApartarUser[n][m][12] = gArea;
+                                    
+                                    for(int i = 0; i < 30; i++){
+                                        if(gTitulo.equals(matricesBiblio.Titulo[i])){
+                                            
+                                                matricesBiblio.Copias[i]--;
+                                        }
+                                    }
                                     
                                     JOptionPane.showMessageDialog(prestamoBiblio.this, gTipo + " Apartada", 
                                             gTitulo, JOptionPane.INFORMATION_MESSAGE);
@@ -394,6 +405,9 @@ class prestamoBiblio extends JFrame{
                                 }
                             }
                         }
+                    }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Ya no hay mas libros dosponibles", gTitulo, JOptionPane.WARNING_MESSAGE);
                     }
                     
                 }catch(Exception e){
@@ -414,7 +428,21 @@ class prestamoBiblio extends JFrame{
                
                
             }
-        }
+        }  
+    }
+    
+    private void txtFiltroKeyTyped(java.awt.event.KeyEvent evt){
+            componentesPrestamoBiblio.txtFiltro.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyReleased(final KeyEvent e){
+                    String cadena = (componentesPrestamoBiblio.txtFiltro.getText());
+                    componentesPrestamoBiblio.txtFiltro.setText(cadena);
+                    repaint();
+                    filtro();
+                }
+            });
+            trsFiltro = new TableRowSorter(tabla.getModel());
+            tabla.setRowSorter(trsFiltro);
     }
     
     public void miTablaApartada(){
@@ -422,11 +450,14 @@ class prestamoBiblio extends JFrame{
         String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
             "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
         
-        int tamaño = 0;
+        int tamaño = 30;
         
-            for(int i = 0; i < 30; i++){
-               if(matricesBiblio.Tipo[i] != null){
-                    tamaño++;
+            for(int i = 29; i >= 0; i--){
+                if(matricesBiblio.Tipo[i] == null){
+                    tamaño--;
+                }
+                else{
+                    break;
                 }
             }
         
@@ -451,20 +482,50 @@ class prestamoBiblio extends JFrame{
             }
         }
         
-        
-        tabla = new JTable(datos, nombreColumnas);
+        DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
+        tabla = new JTable(modelo);
         tabla.setBounds(40,40,200,300);
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setBounds(25,275,950,275);
         add(scroll);
         
-        
+    }
+    private TableRowSorter trsFiltro;
+    public void filtro(){
+        int columnaBuscar = 0;
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Titulo"){
+            columnaBuscar = 2;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Autor"){
+            columnaBuscar = 3;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Año de publicacion"){
+            columnaBuscar = 4;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Palabras"){
+            columnaBuscar = 6;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Edicion"){
+            columnaBuscar = 7;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Temas"){
+            columnaBuscar = 8;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "ISBN"){
+            columnaBuscar = 10;
+        }
+        if(componentesPrestamoBiblio.comboFiltro.getSelectedItem() == "Area"){
+            columnaBuscar = 12;
+        }
+        trsFiltro.setRowFilter(RowFilter.regexFilter(componentesPrestamoBiblio.txtFiltro.getText(), columnaBuscar));
     }
 }
 class componentesPrestamoBiblio extends JPanel{
     
     static JButton[] boton = new JButton[5];
     private Image imagen[] = new Image[3];
+    static JTextField txtFiltro;
+    static JComboBox comboFiltro;
     
     public componentesPrestamoBiblio(){
         setLayout(null);
@@ -488,6 +549,23 @@ class componentesPrestamoBiblio extends JPanel{
         boton[4] = new JButton("Buscar");
         boton[4].setBounds(new Rectangle(400, 200, 200, 50));
         add(boton[4]);
+        
+        txtFiltro = new JTextField();
+        txtFiltro.setBounds(new Rectangle(400,100,200,25));
+        add(txtFiltro);
+        
+        comboFiltro = new JComboBox();
+        comboFiltro.addItem("Titulo");
+        comboFiltro.addItem("Autor");
+        comboFiltro.addItem("Año de publicacion");
+        comboFiltro.addItem("Palabras");
+        comboFiltro.addItem("Edicion");
+        comboFiltro.addItem("Temas");
+        comboFiltro.addItem("ISBN");
+        comboFiltro.addItem("Area");
+        comboFiltro.setBounds(new Rectangle(400,150,200,25));
+        add(comboFiltro);
+        
     }
     @Override
     public void paintComponent(Graphics g){
@@ -569,6 +647,13 @@ class verPrestamos extends JFrame{
                         if(marcoLogin.usuarioDentro.equals(prestamoBiblio.biblioApartarUser[n][0][0])){
                             for(int m = 1; m < 20; m++){
                                 if(titulo.equals(prestamoBiblio.biblioApartarUser[n][m][2])){
+                                    
+                                    for(int j = 0; j < 30; j++){
+                                        if(titulo.equals(matricesBiblio.Titulo[j])){
+                                            matricesBiblio.Copias[j]++;
+                                        }
+                                    }
+                                    
                                     for(int i = 1; i < 13; i++){
                                         prestamoBiblio.biblioApartarUser[n][m][i] = null;
                                     }
@@ -605,18 +690,17 @@ class verPrestamos extends JFrame{
         String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
             "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
         
-        int tamaño = 0;
+        int tamaño = 20;
         
         try{
         for(int n = 0; n < 20; n++){
             if(marcoLogin.usuarioDentro.equals(prestamoBiblio.biblioApartarUser[n][0][0])){
-                for(int m = 1; m < 19; m++){
-                    if(prestamoBiblio.biblioApartarUser[n][m][2] != null){
-                        tamaño++;
+                for(int m = 19; m > 0; m--){
+                    if(prestamoBiblio.biblioApartarUser[n][m][2] == null){
+                        tamaño--;
+                    }else{
+                        break;
                     }
-                    else if(prestamoBiblio.biblioApartarUser[n][m+1][2] != null){
-                       tamaño++;
-                   }
                 }
             }
         }

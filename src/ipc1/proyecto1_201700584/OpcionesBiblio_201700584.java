@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.table.DefaultTableModel;
 
 public class OpcionesBiblio_201700584 {  
 }
@@ -66,7 +67,7 @@ class marcoCrearBiblio extends marcoBiblio{
     private class eventosCrearBiblio implements ActionListener{
         
         String gAutor,gAño,gDescripcion,gPalabras,gTemas,gEjemplares,gArea,gTitulo;
-        int gEdicion,gCopias,gISBN;
+        int gEdicion,gCopias,gISBN, t = 0;
         Object gTipo;
         
         
@@ -115,16 +116,41 @@ class marcoCrearBiblio extends marcoBiblio{
                 gDescripcion = componentesBiblio.tDescripcion.getText();
                 gPalabras = componentesBiblio.tPalabras.getText();
                 gTemas = componentesBiblio.tTemas.getText();
-                gEdicion = Integer.parseInt(componentesBiblio.tEdicion.getText());
-                 
                 
+                try{
+                gEdicion = Integer.parseInt(componentesBiblio.tEdicion.getText());
+                t = 1;
+                }catch(NumberFormatException e){
+                    JOptionPane.showMessageDialog(null, "Ingrese el numero de la edicion", "ERROR", JOptionPane.WARNING_MESSAGE);
+                    t = 0;
+                }
+                
+                if(opcion == 1 || opcion == 2 || opcion == 3){
+                    try{
+                        gCopias = Integer.parseInt(componentesBiblio.tCopias.getText());
+                        t = 1;
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "Ingrese el numero de copias", "ERROR", JOptionPane.WARNING_MESSAGE);
+                        t = 0;
+                    }
+                }
+                
+                if(opcion == 1){
+                    try{
+                        gISBN = Integer.parseInt(componentesBiblio.tISBN.getText());
+                        t = 1;
+                    }catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "Ingrese el numero de ISBN", "ERROR", JOptionPane.WARNING_MESSAGE);
+                    t = 0;
+                    }
+                }
+                
+                
+                if(t == 1){ 
                 for(int n = 0; n < 30; n++){
                     
                     if(opcion == 1){
-                        
-                        gCopias = Integer.parseInt(componentesBiblio.tCopias.getText());
-                        gISBN = Integer.parseInt(componentesBiblio.tISBN.getText());
-                        
+                        if(t == 1){
                         if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
                             if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
                                 matricesBiblio.Copias[n] += gCopias;
@@ -165,11 +191,12 @@ class marcoCrearBiblio extends marcoBiblio{
                             break;
                         }
                     }
+                    }
                     if(opcion == 2){
                         
-                        gCopias = Integer.parseInt(componentesBiblio.tCopias.getText());
-                        gEjemplares = componentesBiblio.tEjemplares.getText(); 
+                        gEjemplares = componentesBiblio.tEjemplares.getText();
                         
+                        if(t == 1){
                         if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
                             if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
                                 matricesBiblio.Copias[n] += gCopias;
@@ -210,10 +237,12 @@ class marcoCrearBiblio extends marcoBiblio{
                             break;
                         }
                     }
+                    }
                     else if(opcion == 3){
                         
-                        gCopias = Integer.parseInt(componentesBiblio.tCopias.getText());
                         gArea = componentesBiblio.tArea.getText();
+                        
+                        if(t == 1){
                         
                         if(gTitulo.equals(matricesBiblio.Titulo[n])){//Si el titulo ya existe
                             if(gEdicion == matricesBiblio.Edicion[n]){//Si es la misma edicion que solo sume el nuemro de copias
@@ -255,6 +284,7 @@ class marcoCrearBiblio extends marcoBiblio{
                             break;
                         }
                     }
+                    }
                     else if(opcion == 4){
                         if(matricesBiblio.Titulo[n] == null){
                             matricesBiblio.Tipo[n] = (String)gTipo;
@@ -271,6 +301,8 @@ class marcoCrearBiblio extends marcoBiblio{
                     }
                 }
                 limpiarCampos limpiar = new limpiarCampos();
+                }
+                
             }
             else if(evento.getSource()==componentesBiblio.bCancelar){
                 limpiarCampos limpiar = new limpiarCampos();
@@ -725,7 +757,7 @@ class marcoDeleteBiblio extends marcoBiblio{
 
 class marcoMostrarBiblio extends JFrame{//TABLA
     
-    public JTable tabla;
+    
     private String[] nombreColumnas = {"No.","Tipo","Titulo","Autor","Año de Publicacion",
         "Descripcion", "Palabras clave","Edicion","Temas","Copias","ISBN","Ejemplares","Area"};
     
@@ -749,11 +781,14 @@ class marcoMostrarBiblio extends JFrame{//TABLA
     }
     public void miTabla(){
         
-        int tamaño = 0;
+        int tamaño = 30;
         
-            for(int i = 0; i < 30; i++){
-                if(matricesBiblio.Tipo[i] != null){
-                    tamaño++;
+            for(int i = 29; i >= 0; i--){
+                if(matricesBiblio.Tipo[i] == null){
+                    tamaño--;
+                }
+                else{
+                    break;
                 }
             }
         
@@ -777,7 +812,11 @@ class marcoMostrarBiblio extends JFrame{//TABLA
             datos[n][12] = matricesBiblio.Area[n];
         }
         
-        tabla = new JTable(datos, nombreColumnas);
+        DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
+        
+        JTable tabla;
+        
+        tabla = new JTable(modelo);
         tabla.setBounds(40,40,200,300);
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setPreferredSize(new Dimension(1100,300));

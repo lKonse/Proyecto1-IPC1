@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import javax.imageio.*;
+import javax.swing.table.DefaultTableModel;
 
 
 public class OpcionesUsers_201700584{ 
@@ -70,57 +71,78 @@ class marcoCrearUsers extends JFrame{
             if(evento.getSource()==componentesUsers.bOpcion){
                 matricesUsers h = new matricesUsers();
                 
-                for(int n = 0; n < 20; n++){
-                    
-                    guardarID = componentesUsers.tID.getText();
-                    guardarUser = componentesUsers.tUser.getText();
-                    guardarContra = componentesUsers.tContra.getText();
-                    confirmContra = componentesUsers.tConfirmContra.getText();
-                    
-                    if(guardarID.equals(matricesUsers.ID[n])){
-                        JOptionPane.showMessageDialog(marcoCrearUsers.this, "Ya existe un usuario con este ID", 
-                                "ERROR", 2);
-                        break;
-                    }
-                    else if(guardarUser.equals(matricesUsers.User[n])){
-                        JOptionPane.showMessageDialog(marcoCrearUsers.this, "Nombre de usuario no disponible", 
-                                "ERROR", 2);
-                        break;
-                    }
-                    else if(!confirmContra.equals(guardarContra)){
-                        JOptionPane.showMessageDialog(marcoCrearUsers.this, "Las confirmacion de contraseña"
-                                + " no coincide", "Contraseña", JOptionPane.WARNING_MESSAGE);
-                        break;
-                    }
-                    
-                    guardarNombre = componentesUsers.tNombre.getText();
-                    guardarApellido = componentesUsers.tApellido.getText();
-                    guardarRol = componentesUsers.tRol.getSelectedItem();
+                guardarID = componentesUsers.tID.getText();
+                guardarUser = componentesUsers.tUser.getText();
+                guardarContra = componentesUsers.tContra.getText();
+                confirmContra = componentesUsers.tConfirmContra.getText();
+                guardarNombre = componentesUsers.tNombre.getText();
+                guardarApellido = componentesUsers.tApellido.getText();
+                guardarRol = componentesUsers.tRol.getSelectedItem();
                 
-                //HASTA QUI PERRO
-                    if(matricesUsers.ID[n] == null){
-                        
-                        matricesUsers.ID[n]=guardarID;
-                        matricesUsers.Nombre[n]=guardarNombre;
-                        matricesUsers.Apellido[n]=guardarApellido;
-                        matricesUsers.User[n]=guardarUser;
-                        matricesUsers.Contra[n]=guardarContra;
-                        matricesUsers.Rol[n]=guardarRol;
-                        
-                        bibliotecaVirtual.librosVirtualesUser[n][0] = guardarUser;//Guardar el usuario en la biblioteca virtual
-                        prestamoBiblio.biblioApartarUser[n][0][0] = guardarUser;//Guardar el usuario en los libros apartados
-                        
-                        JOptionPane.showMessageDialog(marcoCrearUsers.this, "Usuario creado con exito", 
-                                "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);
-                        
-                        componentesUsers.tID.setText(null);
-                        componentesUsers.tNombre.setText(null);
-                        componentesUsers.tApellido.setText(null);
-                        componentesUsers.tUser.setText(null);
-                        componentesUsers.tContra.setText(null);
-                        componentesUsers.tConfirmContra.setText(null);
-                        
-                        break;
+                if(guardarID.equals("")){
+                    JOptionPane.showMessageDialog(null, "Ingrese ID", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                
+                else if(guardarUser.equals("")){
+                    JOptionPane.showMessageDialog(null, "Ingrese Usuario", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                
+                else if(guardarContra.equals("")){
+                    JOptionPane.showMessageDialog(null, "Ingrese Contraseña", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                
+                else if(guardarNombre.equals("")){
+                    JOptionPane.showMessageDialog(null, "Ingrese Nombre", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                
+                else if(guardarApellido.equals("")){
+                    JOptionPane.showMessageDialog(null, "Ingrese Apellido", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+                
+                else if(!guardarID.equals("") && !guardarUser.equals("") && !guardarNombre.equals("") && !guardarContra.equals("")
+                        && !guardarApellido.equals("")){
+                    for(int n = 0; n < 20; n++){
+
+                        if(guardarID.equals(matricesUsers.ID[n])){
+                            JOptionPane.showMessageDialog(marcoCrearUsers.this, "Ya existe un usuario con este ID", 
+                                    "ERROR", 2);
+                            break;
+                        }
+                        else if(guardarUser.equals(matricesUsers.User[n])){
+                            JOptionPane.showMessageDialog(marcoCrearUsers.this, "Nombre de usuario no disponible", 
+                                    "ERROR", 2);
+                            break;
+                        }
+                        else if(!confirmContra.equals(guardarContra)){
+                            JOptionPane.showMessageDialog(marcoCrearUsers.this, "Las confirmacion de contraseña"
+                                    + " no coincide", "Contraseña", JOptionPane.WARNING_MESSAGE);
+                            break;
+                        }
+
+                        if(matricesUsers.ID[n] == null){
+
+                            matricesUsers.ID[n]=guardarID;
+                            matricesUsers.Nombre[n]=guardarNombre;
+                            matricesUsers.Apellido[n]=guardarApellido;
+                            matricesUsers.User[n]=guardarUser;
+                            matricesUsers.Contra[n]=guardarContra;
+                            matricesUsers.Rol[n]=guardarRol;
+
+                            bibliotecaVirtual.librosVirtualesUser[n][0] = guardarUser;//Guardar el usuario en la biblioteca virtual
+                            prestamoBiblio.biblioApartarUser[n][0][0] = guardarUser;//Guardar el usuario en los libros apartados
+
+                            JOptionPane.showMessageDialog(marcoCrearUsers.this, "Usuario creado con exito", 
+                                    "Creacion usuario", JOptionPane.INFORMATION_MESSAGE);
+
+                            componentesUsers.tID.setText(null);
+                            componentesUsers.tNombre.setText(null);
+                            componentesUsers.tApellido.setText(null);
+                            componentesUsers.tUser.setText(null);
+                            componentesUsers.tContra.setText(null);
+                            componentesUsers.tConfirmContra.setText(null);
+
+                            break;
+                        }
                     }
                 }
             }
@@ -395,11 +417,14 @@ class marcoMostrarUsers extends JFrame{//TABLA
     }
     public void miTabla(){
         
-        int tamaño = 0;
+        int tamaño = 20;
         
-            for(int i = 1; i < 20; i++){
-                if(matricesUsers.ID[i] != null){
-                    tamaño++;
+            for(int i = 19; i >= 0; i--){
+                if(matricesUsers.ID[i] == null){
+                    tamaño--;
+                }
+                else{
+                    break;
                 }
             }
         
@@ -417,7 +442,9 @@ class marcoMostrarUsers extends JFrame{//TABLA
             datos[n][6] = matricesUsers.Rol[n+1];
         }
         
-        tabla = new JTable(datos, nombreColumnas);
+        DefaultTableModel modelo = new DefaultTableModel(datos, nombreColumnas);
+        
+        tabla = new JTable(modelo);
         tabla.setBounds(40,40,200,300);
         JScrollPane scroll = new JScrollPane(tabla);
         scroll.setPreferredSize(new Dimension(550,400));
